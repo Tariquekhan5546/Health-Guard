@@ -226,7 +226,8 @@ Database Schema
 
 Below are all required tables.
 
-users
+#### users
+
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(100),
@@ -239,7 +240,9 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     firebase_uid VARCHAR(128) UNIQUE
 );
-subscribers
+
+#### subscribers
+
 CREATE TABLE subscribers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(100),
@@ -252,7 +255,9 @@ CREATE TABLE subscribers (
     approved TINYINT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-disease_counts
+
+#### disease_counts
+
 CREATE TABLE disease_counts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -267,7 +272,9 @@ CREATE TABLE disease_counts (
     year INT,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
-individual_reports
+
+#### individual_reports
+
 CREATE TABLE individual_reports (
     id INT AUTO_INCREMENT PRIMARY KEY,
     phone_number VARCHAR(15),
@@ -280,7 +287,9 @@ CREATE TABLE individual_reports (
     diagnosis_date DATE,
     doctor_confirmed ENUM('Yes','No')
 );
-notifications
+
+#### notifications
+
 CREATE TABLE notifications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     subscriber_id INT,
@@ -292,21 +301,27 @@ CREATE TABLE notifications (
     FOREIGN KEY (subscriber_id) REFERENCES subscribers(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
-areas
+
+#### areas
+
 CREATE TABLE areas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     state VARCHAR(100),
     district VARCHAR(100),
     area_name VARCHAR(150)
 );
-state_cases
+
+#### state_cases
+
 CREATE TABLE state_cases (
     id INT AUTO_INCREMENT PRIMARY KEY,
     year INT,
     state_ut VARCHAR(50),
     cases INT DEFAULT 0
 );
-state_disease_data
+
+#### state_disease_data
+
 CREATE TABLE state_disease_data (
     id INT AUTO_INCREMENT PRIMARY KEY,
     state_name VARCHAR(100),
@@ -320,7 +335,9 @@ CREATE TABLE state_disease_data (
     other INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-district_viral_cases
+
+#### district_viral_cases
+
 CREATE TABLE district_viral_cases (
     id INT AUTO_INCREMENT PRIMARY KEY,
     district VARCHAR(50),
@@ -333,7 +350,9 @@ CREATE TABLE district_viral_cases (
     hepatitis_ae INT DEFAULT 0,
     other_minor_viral INT DEFAULT 0
 );
-district_year_cases
+
+#### district_year_cases
+
 CREATE TABLE district_year_cases (
     id INT AUTO_INCREMENT PRIMARY KEY,
     year INT,
@@ -341,7 +360,9 @@ CREATE TABLE district_year_cases (
     district VARCHAR(100),
     cases INT DEFAULT 0
 );
-area_alert_windows
+
+#### area_alert_windows
+
 CREATE TABLE area_alert_windows (
     id INT AUTO_INCREMENT PRIMARY KEY,
     state VARCHAR(100),
@@ -351,7 +372,9 @@ CREATE TABLE area_alert_windows (
     last_summary_sent_at DATETIME,
     threshold_sent_at DATETIME
 );
-area_alert_cycles
+
+#### area_alert_cycles
+
 CREATE TABLE area_alert_cycles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     state VARCHAR(100),
@@ -360,7 +383,9 @@ CREATE TABLE area_alert_cycles (
     disease VARCHAR(100),
     last_summary_sent_at DATETIME
 );
-area_daily_counts
+
+#### area_daily_counts
+
 CREATE TABLE area_daily_counts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     state VARCHAR(100),
@@ -372,7 +397,9 @@ CREATE TABLE area_daily_counts (
     threshold_alert_sent TINYINT DEFAULT 0,
     scheduled_alert_sent TINYINT DEFAULT 0
 );
-area_daily_archive
+
+#### area_daily_archive
+
 CREATE TABLE area_daily_archive (
     id INT AUTO_INCREMENT PRIMARY KEY,
     area_name VARCHAR(100),
@@ -383,7 +410,9 @@ CREATE TABLE area_daily_archive (
     archived_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-reviews
+
+#### reviews
+
 CREATE TABLE reviews (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
