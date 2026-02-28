@@ -476,15 +476,18 @@ node server.js
 Server will start at:
 
 http://localhost:3000
-Version
+
+### Version
 
 v1.0
 
 Khan, T., Chougle, I., Pandey, A., & Waghmode, B. (2026).
 Health-Guard (Version 1.0) [Software].
-GitHub repository.
-https://github.com/YOUR_USERNAME/health-guard
 
-License
+### GitHub repository.
+
+https://github.com/Tariquekhan5546/Health-Guard
+
+### License
 
 MIT License
