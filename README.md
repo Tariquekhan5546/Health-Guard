@@ -1,3 +1,6 @@
+![GitHub release (latest by semver)](https://img.shields.io/github/v/release/Tariquekhan5546/Health-Guard)
+![License](https://img.shields.io/github/license/Tariquekhan5546/Health-Guard)
+
 # Health-Guard
 
 Health-Guard is a modular, AI-assisted, district-level viral disease reporting and alert escalation platform.
