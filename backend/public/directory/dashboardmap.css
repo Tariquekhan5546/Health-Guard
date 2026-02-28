@@ -1,0 +1,311 @@
+#map-container {
+  position: relative; /* container for absolute elements */
+  height: 100%;       /* ensure it fills the card */
+}
+
+.fm-map-container svg {
+  position: absolute;
+  top: 0;   /* start from top of container */
+  left: 0;
+  width: 100%;  /* scale to container */
+  height: 100%;
+  z-index: 1;
+}
+.fm-tooltip {
+	display: none;
+	position: absolute;
+	z-index: 3;
+	min-width: 200px;
+}
+.fm-tooltip-image {
+	white-space: nowrap;
+}
+.fm-tooltip-image img {
+	max-width: none;
+}
+.fm-tooltip-comment {
+	font-size: 12px;
+	font-family: arial;
+	color: #000000;
+}
+
+/* new 23-01-2024 */
+
+.fm-tooltip-comment p {
+	margin: 1px 0px 1px 0px;
+}
+.fm-tooltip-comment h1 {
+	font-size: 20px;
+	margin: 4px 0px 4px 0px;
+}
+.fm-tooltip-comment h2 {
+	font-size: 18px;
+	margin: 3px 0px 3px 0px;
+}
+.fm-tooltip-comment h3 {
+	font-size: 16px;
+	margin: 2px 0px 2px 0px;
+}
+
+/* end new 23-01-2024 */
+
+.fm-tooltip-frame {
+	background-color: #fff;
+	border: 2px solid #bbb;
+	border-radius: 10px;
+	padding: 5px;
+	opacity: .99;
+	max-width: 350px;
+	min-width: 200px;
+	border-collapse: separate;
+	margin-bottom: 0 !important;
+	line-height: 1.4;
+	vertical-align: top;
+	table-layout: auto;
+}
+.fm-tooltip-frame td {
+	background-color:inherit;
+	border: none;
+	padding: 5px;
+	vertical-align: top;
+	margin: 0;
+}
+.fm-tooltip-name {
+ 	color: #000;
+	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+ 	font-size: 20px;
+	font-weight:bold;
+	padding: 5px;
+	font-family: arial;
+	line-height: 1;
+}
+.fm-tooltip-x {
+	color: #444;
+	font: 12px/100% arial, sans-serif;
+	position: relative;
+	text-decoration: none;
+	text-shadow: 0 1px 0 #fff;
+	z-index: 5;
+	visibility: hidden;
+	cursor: pointer;
+	margin: -5px -5px 5px 5px;
+	border-bottom: none !important;
+	float: right;
+}
+.fm-tooltip-x img {
+	width: 12px !important;
+	padding:0 !important;
+	margin:0 !important;
+	border:0 !important; 
+}
+.fm-tooltip-x.fm-frozen-x {
+	visibility: visible;
+}
+.fm-tooltip-x.fm-mobile-x {
+	visibility: visible;
+}
+
+.fm-scale {
+	float: left;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	z-index: 2;
+	margin: 10px;
+	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+	-moz-user-select: none; /* mozilla browsers */
+	-khtml-user-select: none; /* webkit (konqueror) browsers */
+	-ms-user-select: none; /* IE10+ */
+}
+.fm-scale div {
+	float: left;
+}
+.fm-scale a {
+	display: block;
+	float: left;
+	font-size: 31px;
+	font-weight: bold;
+	line-height: 38px;
+	text-align: center;
+	cursor: pointer;
+	color: #333;
+	width: 41px;
+	height: 37px;
+	padding-top: 1px;
+	border: 1px solid #e8e8e8;
+	border-bottom: 1px solid #bbb;
+	text-decoration: none;
+	margin-right: 3px;
+	border-radius: 2px;
+	background: #fff;
+}
+.fm-scale a:hover {
+	color: #186ba3;
+}
+.fm-scale a.fm-inactive {
+	cursor: default;
+	color: #cdcdcd;
+}
+.fm-scale-display {
+	clear: both;
+	position: relative;
+	left: 0px;
+	z-index: 10;
+	width: 100%;
+	height: 1px;
+	bottom: 0px;
+	margin-bottom: 5px;
+	background-color: #f3a6a6;
+}
+.fm-scale-display div {
+	background-color: #237cbd;
+	height: 1px;
+	-webkit-transition: width ease-in-out .2s;
+	transition: width ease-in-out .2s;
+}
+
+.fm-scale-buttons {
+	clear: both;
+}
+
+.fm-no-events {
+    pointer-events: none;
+}
+
+@media (max-width: 600px) {
+	.fm-mobile-fixed .fm-tooltip-frame {
+		max-width: 100%;
+		width: 100%;
+	}
+	.fm-mobile-fixed .fm-tooltip-comment {
+		width: 100%;
+	}
+	.fm-scale a { 
+		width: 31px;
+		height: 27px;
+		font-size: 21px;
+		line-height: 28px;
+	}
+}
+.cleartext {
+	display: none;
+}
+#map-legend {
+  position: absolute;
+  min-width: 170px;
+  max-width: 260px;
+  bottom: 10px;
+  right: 10px;
+  background: hsl(0, 0%, 98%);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+
+  /* 👇 Add these */
+  pointer-events: none;
+  background: rgba(250, 250, 250, 0.95);
+  z-index: 5;
+}
+.card:hover #map-legend {
+  transform: none !important;  /* don’t animate the legend */
+}
+
+#map-legend div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+#map-legend span {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  border: 1px solid #999;
+}
+
+/* MEDIA QUERY FOR SMALL SCREENS / MOBILE */
+@media (max-width: 600px) {
+  #map-legend {
+    position: relative;      /* let it flow below the map */
+    bottom: auto;            /* cancel absolute positioning */
+    right: auto;
+    transform: none;         /* remove translation */
+    width: 100%;             /* full width of container */
+    max-width: 100%;         /* prevent overflow */
+    margin-top: 30px;        /* spacing below map */
+    font-size: 10px;
+    padding: 6px;
+    box-sizing: border-box;
+  }
+
+  #map-legend div {
+    margin-bottom: 2px;
+  }
+
+  #map-legend span {
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+  }
+}
+
+
+#legend-title {
+  font-weight: bold;
+  margin-bottom: 6px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center; /* centers horizontally */
+  text-align: center;      /* fallback for inline text */
+}
+
+@media (max-width: 768px) {
+  #map-placeholder,
+  #district-map-iframe {
+    min-height: 200px !important;
+  }
+}
+@media (max-width: 768px) {
+
+  /* Kill the flex layout completely on mobile */
+  #district > div[style*="max-width"] {
+    display: block !important;
+  }
+
+  /* Make each filter take full width */
+  .year-filter,
+  #district > div[style*="max-width"] > div:nth-child(2) {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  /* Keep label + select side by side */
+  .year-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Same for district filter */
+  #district > div[style*="max-width"] > div:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Prevent label wrapping */
+  .year-filter label,
+  #district > div[style*="max-width"] > div:nth-child(2) label {
+    white-space: nowrap;
+    font-size: 14px;
+  }
+
+  /* Control dropdown width */
+  #districtyear,
+  #district-select {
+    width: 130px;
+  }
+
+}

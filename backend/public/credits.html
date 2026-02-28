@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Developed by [Tarique Khan]-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="developer" content="Tarique Khan">
+    <link rel="icon" type="image/png" href="images/iconlogo.png">
+    <title>Credits</title>
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="format-detection" content="telephone=no">
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+/* ---------- Global ---------- */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Light background for content */
+    margin: 0;
+    padding: 0;
+}
+/* ---------- Banner ---------- */
+.banner-wrapper {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    border-radius: 12px;
+    position: relative;
+}
+
+#banner {
+    width: 100%;
+    min-height: 75vh;
+    background: 
+        url('../images/banner.png') no-repeat top right,
+        linear-gradient(135deg, #eaeaea, #ffffff);
+    background-size: contain;
+    padding: 5.375em 0;
+    border-radius: 12px;
+    position: relative;
+}
+
+#banner::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -1px;
+    width: 100%;
+    height: 74vh;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== Credits Wrapper ===== */
+
+.credits-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 60px;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.08);
+}
+
+/* Title */
+.credits-title {
+    text-align: center;
+    font-size: 3.5rem;
+    font-weight: 500;
+    margin-bottom: 60px;
+    letter-spacing: 1px;
+}
+
+/* Section Layout */
+.credit-section {
+    margin-bottom: 70px;
+}
+
+.credit-section h2 {
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    border-left: 5px solid #2c5364;
+    padding-left: 15px;
+}
+
+/* ===== Grid Layout (Desktop Premium) ===== */
+
+.credit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+/* ===== Card Design ===== */
+
+.credit-card {
+    background: #f9fbfc;
+    padding: 35px;
+    border-radius: 18px;
+    font-size: 1.15rem;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+}
+
+.credit-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* Highlight Main Developer */
+.credit-card.highlight {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    padding: 20px;
+}
+
+.credit-card.highlight h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 992px) {
+    .credits-wrapper {
+        padding: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .credits-wrapper {
+        width: 92%;
+        padding: 30px 20px;
+    }
+
+    .credits-title {
+        font-size: 2.2rem;
+        margin-bottom: 40px;
+    }
+
+    .credit-card {
+        padding: 22px;
+        font-size: 1rem;
+    }
+
+    .credit-card.highlight {
+        padding: 20px;
+    }
+}
+
+/* ---------- Banner1 ---------- */
+#banner1 {
+    width: 100%;
+    min-height: 80vh;
+    background-size: contain;
+    background-position: right;
+    background-repeat: no-repeat;
+    background-color: #ffffff;
+    text-align: center;
+    color: rgb(48, 48, 48);
+    padding: 7em 0;
+}
+
+#banner1 h1 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 2.75em;
+    color: rgb(48, 48, 48);
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+#banner1 p {
+    color: #484848;
+    line-height: 1.5em;
+}
+
+/* ===== Footer Base ===== */
+
+.hg-footer {
+  background: linear-gradient(135deg, #081013, #131b1e, #070d10);
+  color: #ffffff;
+  padding-top: 60px;
+  margin-top: 80px;
+}
+
+.hg-footer-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  padding-bottom: 40px;
+}
+
+/* Brand */
+.hg-footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.hg-footer-logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.hg-footer-tagline {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+/* Links & Contact */
+.hg-footer-links h5,
+.hg-footer-contact h5 {
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.hg-footer-links a {
+  display: block;
+  color: #ffffff;
+  text-decoration: none;
+  margin-bottom: 10px;
+  opacity: 0.85;
+  transition: 0.3s ease;
+}
+
+.hg-footer-links a:hover {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+.hg-footer-contact p {
+  margin: 6px 0;
+  font-size: 0.9rem;
+  opacity: 0.85;
+  text-decoration: none !important;
+}
+
+/* Bottom Bar */
+.hg-footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.2);
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.hg-footer-bottom p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Social Icons */
+.hg-footer-social a {
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin-left: 15px;
+  transition: 0.3s ease;
+}
+
+.hg-footer-social a:hover {
+  color: #00c6ff;
+  transform: translateY(-3px);
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 768px) {
+
+  .hg-footer {
+    padding-top: 40px;
+  }
+
+  .hg-footer-container {
+    text-align: center;
+  }
+
+  .hg-footer-logo {
+    justify-content: center;
+  }
+
+  .hg-footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hg-footer-social a {
+    margin: 0 10px;
+  }
+}
+
+
+/* ---------- Input Fields ---------- */
+.input-field {
+    background: #fff !important;
+    color: #0e0e0e !important;
+    border: 1px solid white !important;
+}
+
+/* ================= HEADER ================= */
+
+.hg-header {
+  background: #000;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1000;
+}
+
+.hg-header-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.hg-logo img {
+  width: 55px;
+  cursor: pointer;
+}
+
+/* Desktop Nav */
+.hg-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.hg-nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.hg-nav a:hover {
+  color: hsl(182, 100%, 40%);
+}
+
+.hg-buttons button {
+  margin-left: 10px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid white;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+.hg-buttons .subscribe {
+  background: hsl(182, 100%, 35%);
+  border: none;
+}
+
+/* Hamburger */
+.hg-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hg-hamburger span {
+  width: 24px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+
+/* ================= MOBILE MENU ================= */
+
+.hg-mobile-menu {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 270px;
+  height: 100vh;
+  background: #111;
+  padding: 20px;
+  transition: 0.3s ease;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.hg-mobile-menu.active {
+  left: 0;
+}
+
+.hg-mobile-menu a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 0;
+  border-bottom: 1px solid #222;
+}
+
+.hg-mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.hg-mobile-buttons {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.hg-mobile-buttons button {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.hg-mobile-buttons button:first-child {
+  background: transparent;
+  justify-content: center;
+  border: 1px solid white;
+  color: white;
+}
+
+.hg-mobile-buttons button:last-child {
+  background: hsl(182, 100%, 35%);
+  justify-content: center;
+  color: white;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+  .hg-nav,
+  .hg-buttons {
+    display: none;
+  }
+
+  .hg-hamburger {
+    display: flex;
+  }
+
+}
+.mobile-text { display: none; }
+
+@media (max-width: 768px) {
+  .desktop-text { display: none; }
+  .mobile-text { 
+    display: block;
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 95%;
+    margin: auto;
+  }
+}
+@media (max-width: 768px) {
+
+  #banner1 {
+    min-height: unset !important;
+    height: auto !important;
+    padding: 50px 20px 30px 20px;
+  }
+
+}
+
+    </style>
+</head>
+
+<body>
+
+<header class="hg-header">
+  <div class="hg-header-container">
+
+    <!-- Hamburger (Mobile Only) -->
+    <div class="hg-hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- Logo -->
+    <div class="hg-logo">
+      <img src="images/icon.jpg" alt="HealthGuard"
+           onclick="window.location.href='index.html'">
+    </div>
+
+    <!-- Desktop Nav -->
+    <nav class="hg-nav">
+      <a href="index.html">Home</a>
+      <a href="diseasedashboard.html">Dashboard</a>
+      <a href="hospitallocator.html">Hospitals</a>
+      <a href="donationform.html">Donate Us</a>
+      <a href="index.html" class="active">Credits</a>
+    </nav>
+
+    <!-- Buttons (Desktop) -->
+    <div class="hg-buttons">
+      <button onclick="window.location.href='login.html'">Sign In</button>
+      <button class="subscribe"
+              onclick="window.location.href='subscribe.html'">Subscribe</button>
+    </div>
+
+  </div>
+</header>
+
+<!-- Mobile Side Menu -->
+<div class="hg-mobile-menu" id="mobileMenu">
+  <div class="hg-mobile-header">
+    <h4>Main Menu</h4>
+    <span onclick="toggleMenu()">✕</span>
+  </div>
+
+  <a href="index.html">Home</a>
+  <a href="diseasedashboard.html">Dashboard</a>
+  <a href="hospitallocator.html">Hospitals</a>
+  <a href="donationform.html">Donate Us</a>
+  <a href="index.html">Credits</a>
+
+  <div class="hg-mobile-buttons">
+    <button onclick="window.location.href='login.html'">Sign In</button>
+    <button onclick="window.location.href='subscribe.html'">Subscribe</button>
+  </div>
+</div>
+
+<!-- SVG icon definition -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="bootstrap" viewBox="0 0 118 94">
+    <path fill-rule="evenodd" clip-rule="evenodd" 
+          d="M14.9 0h88.2C111.4 0 118 6.5 118 14.5v65c0 8-6.6 14.5-14.9 14.5H14.9C6.6 94 0 87.5 0 79.5v-65C0 6.5 6.6 0 14.9 0zm41.2 24h21.7c8.8 0 14.4 4.5 14.4 11.7 0 5.3-3.6 9.8-8.8 10.7v.3c6.8.7 11.4 5.2 11.4 12 0 8.3-6.5 13.4-16.6 13.4H56.1V24zm8.7 9.4v10.8h10.8c4.3 0 6.8-2 6.8-5.5s-2.5-5.3-6.8-5.3H64.8zm0 19.9v12.3H77c4.8 0 7.6-2.2 7.6-6.2 0-4-2.8-6.1-7.6-6.1H64.8z"/>
+  </symbol>
+</svg>
+    <div id="banner1" class="flex">
+      <div class="container">
+        <div>
+          <h1>Meet the Minds Behind HealthGuard</h1>
+          <p class="desktop-text">
+  <br>Every diagnosis, suggestion, and health insight is possible because of the dedicated team behind the scenes.<br><br>
+  From developers to medical advisors, from AI specialists to UX designers —<br>
+  each one has contributed to making HealthGuard a reliable companion in healthcare.<br><br>
+  This page is our way of acknowledging the hard work and expertise that powers every interaction,  
+  ensuring users get accurate guidance when it matters most.
+</p>
+
+<p class="mobile-text">
+  Behind every diagnosis and insight is a dedicated team of developers, AI experts, and medical advisors working together to build a reliable healthcare companion.
+</p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Credits Content -->
+    <div class="credits-container">
+<div class="credits-wrapper">
+
+  <h1 class="credits-title">Credits</h1>
+
+  <!-- Project Lead -->
+  <div class="credit-section">
+    <h2>Project Lead</h2>
+    <div class="credit-card highlight">
+      <h3>Tarique Khan</h3>
+      <p>Project Lead / Full Stack Developer</p>
+    </div>
+  </div>
+
+  <!-- Group Members -->
+  <div class="credit-section">
+    <h2>Group Members</h2>
+
+    <div class="credit-grid">
+      <div class="credit-card">Tarique Fazlur Rehman Khan</div>
+      <div class="credit-card">Ishtiyaq Shoukat Chougle</div>
+      <div class="credit-card">Atharva Devendra Jadhav</div>
+      <div class="credit-card">Abhay Devendra Pandey</div>
+    </div>
+  </div>
+
+  <!-- Guidance -->
+  <div class="credit-section">
+    <h2>Under the Guidance Of</h2>
+    <div class="credit-card">
+      Prof. Babasaheb Waghmode
+    </div>
+  </div>
+
+</div>
+
+    </div>
+
+<!-- Premium Footer -->
+<footer class="hg-footer">
+  <div class="hg-footer-container">
+
+    <!-- Brand Section -->
+    <div class="hg-footer-brand">
+      <div class="hg-footer-logo">
+        <img src="images/icon.jpg" alt="HealthGuard">
+        <span>HealthGuard</span>
+      </div>
+      <p class="hg-footer-tagline">
+        Smart health insights powered by AI. Stay safe. Stay informed.
+      </p>
+    </div>
+
+    <!-- Links Section -->
+    <div class="hg-footer-links">
+      <h5>Quick Links</h5>
+      <a href="index.html">Home</a>
+      <a href="diseasedashboard.html">Dashboard</a>
+      <a href="hospitallocator.html">Hospitals</a>
+      <a href="credits.html">Credits</a>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="hg-footer-contact">
+      <h5>Contact</h5>
+      <p>Email: healthguard2026@gmail.com</p>
+      <p>Office: 0029129102320</p>
+    </div>
+
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="hg-footer-bottom">
+    <p>© 2025 HealthGuard | All Rights Reserved</p>
+    <div class="hg-footer-social">
+      <a href="#"><i class="bi bi-facebook"></i></a>
+      <a href="#"><i class="bi bi-twitter"></i></a>
+      <a href="#"><i class="bi bi-linkedin"></i></a>
+      <a href="#"><i class="bi bi-envelope"></i></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleMenu() {
+  document.getElementById("mobileMenu").classList.toggle("active");
+}
+</script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

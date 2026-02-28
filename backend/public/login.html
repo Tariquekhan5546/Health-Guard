@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>User Login - HealthGuard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    body {
+        background: whitesmoke;
+        font-family: Arial, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        padding-bottom: 50px;
+    }
+
+    /* Navbar */
+    nav.navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: black;
+        color: #fff;
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
+    }
+    nav.navbar .brand {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+    nav.navbar .brand img {
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+nav.navbar .brand h4 { color: #e9e9e9; margin: 0; line-height: 1; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif}
+
+nav.navbar .cta button:hover { background-color: #f7fbfa; }
+
+    /* Card Wrapper */
+    .card-wrapper {
+        position: relative;
+        margin-top: 120px; /* below navbar */
+        width: 100%;
+        max-width: 400px;
+    }
+
+    /* Cards */
+    .login-card, #loginSuccessCard {
+        background: #fff;
+        padding: 50px 30px;
+        border-radius: 12px;
+        color: #000;
+        box-shadow: 0 0 25px rgba(0,0,0,0.2);
+        min-height: 360px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    /* Success Card */
+    #loginSuccessCard {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: #57b8b8;;
+    }
+    #loginSuccessCard .circle {
+        width: 80px; 
+        height: 80px; 
+        border-radius: 50%; 
+        background-color: #57b8b8;; 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        margin-bottom: 20px;
+        color: white;
+        font-size: 40px;
+        transform: scale(0);
+        animation: pop 0.3s forwards;
+    }
+    @keyframes pop { to { transform: scale(1); } }
+
+    /* Login Form */
+    .login-card h2 { margin-bottom: 20px; text-align: center; color: #57b8b8; }
+    .login-card p { text-align: center; color: #555; margin-bottom: 10px; }
+
+    .input-wrapper { position: relative; margin-bottom: 25px; }
+    .input-wrapper input {
+        width: 100%;
+        padding: 14px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        outline: none;
+        background: #f9f9f9;
+        color: #000;
+    }
+    .input-wrapper label {
+        position: absolute;
+        left: 14px;
+        top: 14px;
+        pointer-events: none;
+        color: #888;
+        transition: 0.2s ease all;
+    }
+    .input-wrapper input:focus + label,
+    .input-wrapper input:not(:placeholder-shown) + label {
+        top: -8px;
+        left: 10px;
+        font-size: 12px;
+        color: #6366f1;
+        background: #fff;
+        padding: 0 4px;
+    }
+
+    .login-card button.login-btn {
+        width: 100%;
+        padding: 14px;
+        background-color: #57b8b8;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #fff;
+        transition: background 0.3s;
+    }
+    .login-card button.login-btn:hover { background-color: #2b8e8e; }
+
+    .login-card .signup-link { text-align: center; margin-top: 20px; }
+    .login-card .signup-link a { color: #57b8b8; text-decoration: none; }
+/* ===================================== */
+/* 📱 MOBILE RESPONSIVE FIX */
+/* ===================================== */
+@media (max-width: 576px) {
+
+    body {
+        padding: 20px 15px 60px 15px;
+        align-items: flex-start;   /* move card slightly upward */
+    }
+
+    /* Navbar adjustments */
+    nav.navbar {
+        padding: 12px 15px;
+    }
+
+    nav.navbar .brand img {
+        width: 40px;
+        height: auto;
+    }
+
+    nav.navbar .brand h4 {
+        font-size: 18px;
+    }
+
+    nav.navbar .cta button {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+
+    /* Card wrapper */
+    .card-wrapper {
+        margin-top: 100px;   /* reduce space below navbar */
+        max-width: 100%;
+    }
+
+    /* Login card */
+    .login-card, 
+    #loginSuccessCard {
+        padding: 30px 20px;
+        min-height: auto;
+        border-radius: 10px;
+    }
+
+    .login-card h2 {
+        font-size: 22px;
+    }
+
+    .login-card p {
+        font-size: 14px;
+    }
+
+    /* Inputs */
+    .input-wrapper input {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .input-wrapper label {
+        font-size: 14px;
+    }
+
+    /* Button */
+    .login-card button.login-btn {
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    /* Success circle smaller */
+    #loginSuccessCard .circle {
+        width: 65px;
+        height: 65px;
+        font-size: 30px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="brand" onclick="window.location.href='index.html'">
+        <img src="images/icon1.png" width="50" height="46" alt="HealthGuard">
+        <h4><b>HealthGuard</b></h4>
+    </div>
+    <div class="cta">
+        <button type="button" class="btn btn-outline-light" onclick="window.location.href='subscribe.html'">Subscribe</button>
+    </div>
+</nav>
+
+<!-- Card Wrapper -->
+<div class="card-wrapper">
+    <!-- Login Card -->
+    <div class="login-card" id="loginCard">
+        <h2>Sign In</h2>
+        <p>Enter your credentials to access your account</p>
+        <form id="loginForm" novalidate>
+            <div class="input-wrapper">
+                <input type="email" id="loginEmail" placeholder=" " required autocomplete="email">
+                <label for="loginEmail">Email Address</label>
+            </div>
+            <div class="input-wrapper">
+                <input type="password" id="loginPassword" placeholder=" " required autocomplete="current-password">
+                <label for="loginPassword">Password</label>
+            </div>
+            <button type="submit" class="login-btn">Sign In</button>
+        </form>
+        <div class="signup-link">
+            <p>Don't have an account? <a href="register.html">Create one</a></p>
+        </div>
+    </div>
+
+    <!-- Success Card -->
+    <div id="loginSuccessCard">
+        <div class="circle">✔</div>
+        <h3>Signing in...</h3>
+    </div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "your-project-id.firebaseapp.com",
+    projectId: "your-project-id",
+    storageBucket: "your-project-id.appspot.com",
+    messagingSenderId: "your-messaging-sender-id",
+    appId: "your-app-id"
+  };
+</script>
+
+<script>
+/* Prevent back button showing filled inputs */
+(function() {
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () { 
+        history.go(1); 
+    };
+})();
+
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted || window.performance && window.performance.getEntriesByType("navigation")[0].type === "back_forward") {
+        const loginForm = document.getElementById("loginForm");
+        if(loginForm) loginForm.reset();
+    }
+});
+
+/* 🔹 LOGIN SUBMIT (Firebase-based) */
+document.getElementById("loginForm").addEventListener("submit", async function(event){
+    event.preventDefault();
+
+    const submitButton = this.querySelector('button[type="submit"]');
+    if(submitButton) submitButton.disabled = true;
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+    try {
+        /* 1️⃣ Firebase Authentication */
+        const userCredential = await firebase.auth()
+            .signInWithEmailAndPassword(email, password);
+
+        /* 2️⃣ Get Firebase ID Token */
+        const idToken = await userCredential.user.getIdToken();
+
+        /* 3️⃣ Send ONLY token to backend */
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idToken })
+        });
+
+        const result = await response.json();
+
+        if(result.success){
+            sessionStorage.setItem("token", result.token);
+            localStorage.setItem("user", JSON.stringify(result.user));
+
+            document.getElementById("loginCard").style.display = "none";
+            document.getElementById("loginSuccessCard").style.display = "flex";
+
+            setTimeout(() => {
+                window.location.href = result.isAdmin
+                    ? "adminpage.html"
+                    : "userpage.html";
+            }, 1000);
+        } else {
+            alert("Login failed");
+            if(submitButton) submitButton.disabled = false;
+        }
+    } catch(err){
+        console.error(err);
+        alert(err.message || "Authentication failed");
+        if(submitButton) submitButton.disabled = false;
+    }
+});
+</script>
+
+
+</body>
+</html>

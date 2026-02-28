@@ -1,0 +1,320 @@
+/* Developed by Tarique Khan */
+
+.chat-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: transparent no-repeat center center;
+  background-color: hsl(182, 100%, 35%);
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 24px;
+  border: 0.1px solid white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.15s ease-in-out;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' width='20' height='20'%3E%3Cpath fill='%23fff' d='M14 8.999v-5a2.003 2.003 0 00-2-2H3a2.003 2.003 0 00-2 2v5a2.003 2.003 0 002 2v1.694a.302.302 0 00.486.244l2.587-1.945H12A1.997 1.997 0 0014 9zm3-2h-2v2a3.003 3.003 0 01-3 3H7v2a2.003 2.003 0 002 2h3.927l2.59 1.941c.198.15.483.004.483-.243v-1.701h1a2.003 2.003 0 002-1.997v-5a2.003 2.003 0 00-2-2z' /%3E%3C/svg%3E");
+}
+
+.chat-icon:hover {
+  background-color: hsl(182, 100%, 15%);
+}
+
+.chat-window {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 10px;
+  width: 500px;
+  height: 99%;
+  border: 2px solid hsl(182, 100%, 21%);
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: hsl(186, 100%, 19%);
+  color: white;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.chat-header button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  padding-bottom: 0%;
+  justify-content: flex-start;
+  height: calc(100% - 60px); 
+  max-height: 80vh; 
+
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    /* Start as invisible */
+  }
+
+  to {
+    opacity: 1;
+    /* End fully visible */
+  }
+}
+.typing {
+  background-color: white;
+  float: left;
+  text-align: left;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.typing .dot {
+  width: 8px;
+  height: 8px;
+  margin: 0 2px;
+  background-color: #555;
+  border-radius: 50%;
+  display: inline-block;
+  animation: blink 1.5s infinite;
+}
+
+.typing .dot:nth-child(1) { animation-delay: 0s; }
+.typing .dot:nth-child(2) { animation-delay: 0.2s; }
+.typing .dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blink {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+.bot-message {
+  background-color: #e6e6e6;
+  float: left;
+  text-align: left;
+  
+  opacity: 0;
+  /* Initially hidden */
+  animation: fadeIn 0.5s forwards;
+  /* Fade in effect */
+  animation-delay: 1s;
+  /* Delay before animation starts */
+}
+.bot-message ol,
+.bot-message ul {
+  padding-left: 20px; /* Indent lists properly inside the message bubble */
+  margin: 0; /* Remove extra margin */
+}
+
+.bot-message li {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+.bot-message:after {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent #e6e6e6 transparent transparent;
+}
+.message {
+  display: inline-block;  /* ✅ Makes the container adjust to content */
+  max-width: 75%;  /* ✅ Prevents messages from being too wide */
+  padding: 10px;
+  border-radius: 10px;
+  position: relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  margin-bottom: 10px;
+  clear: both;
+}
+
+.user-message {
+  background-color: hsl(182, 100%, 87%);
+  float: right;
+  text-align: left;
+}
+
+.user-message:after {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent transparent hsl(182, 100%, 87%);
+}
+
+.chat-footer {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #ddd;
+}
+
+.chat-footer input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.send-icon {
+  width: 24px;
+  /* Adjust size as needed */
+  height: 24px;
+  /* Adjust size as needed */
+  background-image: url("https://w7.pngwing.com/pngs/841/271/png-transparent-computer-icons-send-miscellaneous-angle-triangle-thumbnail.png");
+  /* Replace with your send icon URL */
+  background-size: contain;
+  /* Ensures the icon fits the space */
+  display: inline-block;
+  /* Allows the span to behave like a button */
+  cursor: pointer;
+  /* Changes cursor to pointer when hovering */
+  margin-left: 10px;
+  /* Adds spacing between input and icon */
+}
+
+.voice-icon {
+  width: 24px;
+  /* Adjust size as needed */
+  height: 24px;
+  /* Adjust size as needed */
+  background-image: url("https://clipground.com/images/voice-icon-clipart-2.jpg");
+  /* Replace with your voice icon URL */
+  background-size: contain;
+  /* Ensures the icon fits the space */
+  display: inline-block;
+  /* Allows the span to behave like a button */
+  cursor: pointer;
+  /* Changes cursor to pointer when hovering */
+  margin-left: 13px;
+  /* Adds spacing between input and send icon */
+  background-repeat: no-repeat;
+}
+
+/* Change color or icon when active */
+.voice-icon.active {
+  width: 24px;
+  /* Adjust size as needed */
+  height: 24px;
+  /* Adjust size as needed */
+  background-image: url("https://clipground.com/images/voice-icon-clipart-2.jpg");
+  /* Replace with an active mic icon */
+  animation: pulse 1s infinite;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+.voice-icon.listening {
+  animation: pulse 1s infinite;
+  color: red;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.chat-footer button {
+  background-color: #e6b575;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.header {
+  display: flex; /* Use Flexbox to arrange items in a row */
+  align-items: center; /* Center items vertically */
+  justify-content: flex-start;
+}
+
+#minimizechat {
+  margin-right: 18px;
+  width: 23px; /* Set a fixed width for the minimize icon */
+  height: 5px; /* Set a fixed height */
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfx844Lh0HwRFLndak9-5RLVetzsZQTex5oA&s");
+  background-size: 100% 100%; /* Adjust background size to fit the div */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-position: center; /* Center the image in the div */
+  display: inline-block;
+}
+
+#resetchat {
+  width: 20px; /* Fixed size for the reset icon */
+  height: 20px; 
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23fff' d='M440.65 12.57l4 82.77A247.16 247.16 0 0 0 255.83 8C134.73 8 33.91 94.92 12.29 209.82A12 12 0 0 0 24.09 224h49.05a12 12 0 0 0 11.67-9.26 175.91 175.91 0 0 1 317-56.94l-101.46-4.86a12 12 0 0 0-12.57 12v47.41a12 12 0 0 0 12 12H500a12 12 0 0 0 12-12V12a12 12 0 0 0-12-12h-47.37a12 12 0 0 0-11.98 12.57zM255.83 432a175.61 175.61 0 0 1-146-77.8l101.8 4.87a12 12 0 0 0 12.57-12v-47.4a12 12 0 0 0-12-12H12a12 12 0 0 0-12 12V500a12 12 0 0 0 12 12h47.35a12 12 0 0 0 12-12.6l-4.15-82.57A247.17 247.17 0 0 0 255.83 504c121.11 0 221.93-86.92 243.55-201.82a12 12 0 0 0-11.8-14.18h-49.05a12 12 0 0 0-11.67 9.26A175.86 175.86 0 0 1 255.83 432z'%3E%3C/path%3E%3C/svg%3E");
+  background-size: contain; /* Adjust background size to fit */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-position: center; /* Center the image in the div */
+}
+
+#closechat {
+  font-size: 25px; /* Font size for close button */
+  padding-left: 20px; /* Space between the close button and reset icon */
+  cursor: pointer; /* Change cursor on hover for interactivity */
+}
+
+#closechat:hover {
+  transform: scale(1.2); /* Slightly enlarge the button on hover */
+  filter: brightness(1.5); /* Increase brightness to give a color tint effect on hover */
+}
+
+#minimizechat:hover {
+  transform: scale(1.2); /* Slightly enlarge the button on hover */
+  filter: brightness(1.5); /* Increase brightness to give a color tint effect on hover */
+}
+
+#resetchat:hover {
+  transform: scale(1.2); /* Slightly enlarge the icon on hover */
+  filter: brightness(1.5); /* Increase brightness to give a color tint effect on hover */
+}
+.botname{
+  font-weight: bold;
+  margin-left: 15px;
+}

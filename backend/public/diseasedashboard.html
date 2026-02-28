@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Developed by [Tarique Khan]-->
+<head>
+  <?xml version="1.0" standalone="no"?>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="developer" content="Tarique Khan">
+    <title>HealthGuard — Dashboard</title>
+    <link rel="stylesheet" href="css/styledashboard.css">
+    <link rel="stylesheet" href="css/bot.css">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="images/icon2.png" type="image/jpeg">
+    <script src="js/botscript.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/10.0.0/marked.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="js/dashboardgraph.js"></script>
+    <script src="js/dashboarddonutchart.js"></script>
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/mapdata/countries/in/custom/in-all-disputed.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<button id="menu-toggle" class="hamburger">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<div id="sidebar-overlay"></div>
+ <aside class="sidebar">
+  <div class="logo">
+    <a href="index.html">
+      <img src="images/icon1.png" alt="HealthGuard Logo">
+    </a>
+    <h2>HealthGuard</h2>
+  </div>
+  <ul class="menu">
+    <li>
+      <a href="#national" class="active" style="display: flex; align-items: center; gap: 5px; height: 30px;">
+        <i class="fa-solid fa-chart-column"></i>
+        <span>National Wise Cases</span>
+      </a>
+    </li>
+    <li>
+      <a href="#state" style="display: flex; align-items: center; gap: 5px; height: 30px;">
+        <img src="images/iconfordash.png" alt="State Icon" style="width:20px; height:20px;">
+        <span>State Wise Cases</span>
+      </a>
+    </li>
+    <li>
+      <a href="#district" style="display: flex; align-items: center; gap: 5px; height: 30px;">
+        <i class="fa-solid fa-location-dot"></i>
+        <span>District Wise Cases</span>
+      </a>
+    </li>
+  </ul>
+</aside>
+
+
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="content">
+        <!-- National Section -->
+        <section id="national">
+            <div style="text-align:center; margin-bottom:20px; margin-top:20px;">
+                <h1 style="font-size:28px; color:#2c3e50; margin-bottom:5px;">
+                    🦠 India: National Viral Disease Overview (Year Wise)
+                </h1>
+                <p style="font-size:16px; color:#34495e; margin:0;">
+                    Track the total viral disease burden across India and explore state-wise trends.
+                </p>
+            </div>
+
+            <!-- Year Filter -->
+            <div style="text-align:center; margin-bottom:20px;">
+                <label for="year-select"
+                    style="font-weight:bold; font-size:16px; color:#2c3e50; margin-right:12px;">
+                    Select Year:
+                </label>
+                <select id="year-select"
+                    style="padding: 10px 16px; border: 2px solid #3498db; border-radius: 5px; font-size: 15px; font-weight: bold; color: #2c3e50; background: #ecf6fd; outline:black; cursor: pointer; transition: all 0.3s ease; appearance: none; -webkit-appearance: none; -moz-appearance: none;">
+                    <option value="2020" style="padding:8px; border-radius:200px; background:#f8fbff;">2020</option>
+                    <option value="2021" style="padding:8px; border-radius:12px; background:#f0f8ff;">2021</option>
+                    <option value="2022" style="padding:8px; border-radius:12px; background:#eaf4ff;">2022</option>
+                    <option value="2023" style="padding:8px; border-radius:12px; background:#e0f0ff;">2023</option>
+                    <option value="2024" style="padding:8px; border-radius:12px; background:#d8ecff;">2024</option>
+                    <option value="2025" selected style="padding:8px; border-radius:12px; background:#d0e8ff;">2025</option>
+                    <option value="2026" style="padding:8px; border-radius:12px; background:#c8e4ff;">2026</option>
+                </select>
+            </div>
+
+            <!--National Stats Grid -->
+            <div class="stats-grid">
+                <!-- Total Cases -->
+                <div class="stat-card">
+                    <h3>🦠 Total Cases</h3>
+                    <p id="total-cases">0</p>
+                </div>
+              
+                <!-- Affected States -->
+                <div class="stat-card">
+                    <h3><i class="fa-solid fa-map-pin"></i> Affected States</h3>
+                    <p id="affected-states">0 / 36</p>
+                </div>
+              
+                <!-- Growth Rate -->
+                <div class="stat-card">
+                    <h3><i class="fa-solid fa-arrow-trend-up"></i> Growth Rate</h3>
+                    <p id="growth-rate">+0%</p>
+                </div>
+              
+                <!-- Peak Year -->
+                <div class="stat-card">
+                    <h3><i class="fa-solid fa-trophy"></i> Peak Year</h3>
+                    <p id="peak-year">-</p>
+                </div>
+              
+                <!-- Trend -->
+                <div class="stat-card">
+                    <h3><i class="fa-solid fa-chart-simple"></i> Trend</h3>
+                    <p id="trend">-</p>
+                </div>
+              
+                <!-- Lowest Year Cases -->
+                <div class="stat-card">
+                    <h3><i class="fa-solid fa-arrow-trend-down"></i> Lowest Year Cases</h3>
+                    <p id="lowest-year">-</p>
+                </div>
+              
+                <!-- Cumulative Total -->
+                <div class="stat-card">
+                    <h3>🧮 Cumulative Total</h3>
+                    <p id="cumulative-total">0</p>
+                </div>
+              
+                <!-- Top-5 Share -->
+                <div class="stat-card">
+                    <h3><i class="fa-regular fa-star"></i> Top-5 Share</h3>
+                    <p id="top5-share">-</p>
+                </div>
+            </div>
+            <!-- Grid 3 -->
+            <div class="grid-3">
+                <div class="card map-wrapper">
+
+    <div id="container"></div>
+
+    <div class="legend-card">
+    <div class="legend-title">Viral Cases of 2025</div>
+
+    <div class="legend-item">
+        <div class="legend-color" style="background:#c8f3ce"></div>
+        0
+    </div>
+
+    <div class="legend-item">
+        <div class="legend-color" style="background:#75e469"></div>
+        1 – 50K
+    </div>
+
+    <div class="legend-item">
+        <div class="legend-color" style="background:#33b95b"></div>
+        50K – 200K
+    </div>
+
+    <div class="legend-item">
+        <div class="legend-color" style="background:#e6550d"></div>
+        200K – 500K
+    </div>
+
+    <div class="legend-item">
+        <div class="legend-color" style="background:#ff2a43"></div>
+        500K – 1.5M
+    </div>
+
+    <div class="legend-item">
+        <div class="legend-color" style="background:#bd0026"></div>
+        1.5M+
+    </div>
+ </div>
+
+
+ </div>
+
+
+
+ <div class="card">
+     <div id="chart-title"
+         style="text-align:center; font-size:18px; font-weight:bold; color:#2c3e50; margin-bottom:10px;">
+         Monthly Cases in 2025
+     </div>
+     <div id="curve_chart"></div>
+ </div>
+</div>
+</section>
+<!-- State Section -->
+<section id="state">
+    <div style="text-align:center; margin-bottom:20px; margin-top:20px;">
+        <h1 style="font-size:28px; color:#2c3e50; margin-bottom:5px;">
+            🦠 India: State-Wise Viral Disease Overview (Year Wise)
+        </h1>
+        <p style="font-size:16px; color:#34495e; margin:0;">
+            Explore the viral disease burden for each state in India and analyze monthly trends.
+        </p>
+    </div>
+    <!-- State Filters -->
+<div style="text-align:center; margin-bottom:20px;">
+    <!-- Year Selector -->
+    <label for="state-year-select" style="font-weight:bold; font-size:16px; color:#2c3e50; margin-right:12px;">
+        Select Year:
+    </label>
+    <select id="state-year-select" style="padding: 10px 16px; border: 2px solid #3498db; border-radius: 5px; font-size: 15px; font-weight: bold; color: #2c3e50; background: #ecf6fd; outline:black; cursor: pointer;">
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025" selected>2025</option>
+        <option value="2026">2026</option>
+    </select>
+
+    <!-- State Selector -->
+    <label for="state-select" style="font-weight:bold; font-size:16px; color:#2c3e50; margin-left:20px; margin-right:12px;">
+        Select State:
+    </label>
+    <select id="state-select" style="padding: 10px 16px; border: 2px solid #3498db; border-radius: 5px; font-size: 15px; font-weight: bold; color: #2c3e50; background: #ecf6fd; outline:black; cursor: pointer;">
+    <option value="all" selected>All States</option>
+</select>
+
+    <!-- Trend / Order Selector -->
+<label for="state-order" style="font-weight:bold; font-size:16px; color:#2c3e50; margin-left:20px; margin-right:12px;">
+    Order By:
+</label>
+<select id="state-order" style="padding: 10px 16px; border: 2px solid #3498db; border-radius: 5px; font-size: 15px; font-weight: bold; color: #2c3e50; background: #ecf6fd; outline:black; cursor: pointer;">
+    <option value="all" selected>All</option>
+    <option value="rising">Rising</option>
+    <option value="falling">Falling</option>
+</select>
+
+</div>
+
+<div class="grid-2_1" style="flex-direction: row; gap: 20px; align-items: flex-start;">
+    <div class="card_chart" style="flex: 2;">
+        <div id="chart-title1" style="text-align:center; font-size:18px; font-weight:bold; color:#2c3e50; margin-bottom:10px;">
+            State-Wise Cases in 2025
+        </div>
+        <div id="barchart" style="text-align:center;"></div>
+    </div>
+
+   <!-- Existing Highest / Lowest -->
+<div class="stats-grid-state" id="state-stats-grid" style="flex: 1; margin-bottom:0;">
+  
+    <!-- State Cases -->
+    <div class="stat-card" id="state-cases-card">
+        <h3>🏙️ State Cases</h3>
+        <p>All States: 0</p>
+    </div>
+
+    <!-- State Trend -->
+    <div class="stat-card" id="state-trend-card">
+        <h3>📈 State Trend</h3>
+        <p>—</p>
+    </div>  
+
+    <!-- Highest -->
+    <div class="stat-card" id="highest-card">
+        <h3>🔝 Highest State</h3>
+        <p>Maharashtra</p>
+    </div>
+
+    <!-- Lowest -->
+    <div class="stat-card" id="lowest-card">
+        <h3>🔽 Lowest State</h3>
+        <p>Lakshadweep</p>
+    </div>
+</div>
+</div>
+</section>
+
+
+<!-- District Section -->
+<section id="district" style="margin: 20px 0;">
+
+  <!-- Section Header -->
+  <div style="text-align:center; margin-bottom:20px;">
+    <h1 style="font-size:28px; color:#2c3e50; margin-bottom:5px;">
+      🦠 India: District-Wise Viral Disease Overview (Year Wise)
+    </h1>
+    <p style="font-size:16px; color:#34495e; margin:0;">
+      Explore the viral disease burden for each district in Maharashtra and analyze monthly trends.
+    </p>
+  </div>
+
+  <!-- 🔽 Filters Toolbar (Top) -->
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 20px;">
+    
+    <!-- Year Filter -->
+    <div style="display: flex; align-items: center; gap: 10px;">
+          <!-- State Selector -->
+    <label for="state-select" style="font-weight:bold; font-size:16px; color:#2c3e50; margin-left:20px; margin-right:12px;">
+        Select State:
+    </label>
+    <select id="specific-state-select" style="padding: 10px 16px; border: 2px solid #3498db; border-radius: 5px; font-size: 15px; font-weight: bold; color: #2c3e50; background: #ecf6fd; outline:black; cursor: pointer;">
+    <option value="all" selected>All States</option>
+</select>
+      <label for="district-year" style="font-weight:600; font-size:15px; color:#2c3e50; white-space: nowrap;">
+        Select Year:
+      </label>
+      <select id="district-year" style="padding: 10px 16px; border: 2px solid #3498db; border-radius: 5px; font-size: 15px; font-weight: bold; color: #2c3e50; background: #ecf6fd; outline:black; cursor: pointer; appearance: none;">
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025" selected>2025</option>
+        <option value="2026">2026</option>
+      </select>
+    </div>
+
+  </div>
+
+  <!-- Map + Info Cards Grid -->
+  <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">
+
+    <!-- Left Side: Map Card -->
+    <div class="map-card">
+
+
+  <!-- Placeholder -->
+  <div id="map-placeholder"
+       style="
+         display:flex;
+         align-items:center;
+         justify-content:center;
+         height:100%;
+         min-height:400px;
+         background:#f4f9ff;
+         border-radius:12px;
+         color:#2c3e50;
+         font-size:18px;
+         font-weight:600;
+         text-align:center;
+         padding:20px;
+       ">
+    🗺️ Please select a state to view district-wise data
+  </div>
+
+  <!-- Map iframe (hidden initially) -->
+  <iframe
+    id="district-map-iframe"
+    src=""
+    width="100%"
+    style="border:none; display:none; height:100%; min-height:400px;"
+    scrolling="no">
+  </iframe>
+
+</div>
+<script>
+function adjustMapHeight() {
+  const placeholder = document.getElementById("map-placeholder");
+  const iframe = document.getElementById("district-map-iframe");
+
+  if (window.innerWidth <= 768) {
+    // Mobile
+    if (placeholder) placeholder.style.minHeight = "200px";
+    if (iframe) iframe.style.minHeight = "200px";
+  } else {
+    // Desktop
+    if (placeholder) placeholder.style.minHeight = "400px";
+    if (iframe) iframe.style.minHeight = "400px";
+  }
+}
+
+// Run on load
+adjustMapHeight();
+
+// Run on resize
+window.addEventListener("resize", adjustMapHeight);
+</script>
+
+    <!-- Right Side: Info Cards -->
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 15px; min-width: 250px;">
+      
+      <div class="info-card" style="padding:10px; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        <h4>📍 District with Most Cases</h4>
+        <p id="most-cases">Loading...</p>
+      </div>
+      
+      <div class="info-card" style="padding:10px; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        <h4>📍 District with Least Cases</h4>
+        <p id="least-cases">Loading...</p>
+      </div>
+      
+      <div class="info-card" id="alert-card" style="padding:10px; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        <div id="alert-content">Loading...</div>
+      </div>
+
+    </div>
+  </div>
+      <!-- Instruction Text -->
+<div style="width: 100%; box-sizing: border-box; margin-top: 70px; padding: 12px 20px; background: #ecf6fd; border-left: 4px solid #3498db; border-radius: 6px; color: #2c3e50; font-size: 16px;text-align: center;">
+  🦠 Please select a district and year from the filters below to view the viral disease distribution for that selection.
+</div>
+
+  <!-- 🔽 Filters Toolbar (Bottom) -->
+  <div style="max-width: 950px; margin:20px auto; display:flex; gap:20px; flex-wrap:wrap; justify-content:center; align-items:center;">
+
+    <!-- Year Select (Second One) -->
+    <div class="year-filter">
+      <label for="districtyear" style="font-weight:600;">Select Year:</label>
+       <select id="districtyear" style="padding: 10px 16px; border: 2px solid #3498db; border-radius: 5px; font-size: 15px; font-weight: bold; color: #2c3e50; background: #ecf6fd; outline:black; cursor: pointer; appearance: none;">
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025" selected>2025</option>
+        <option value="2026">2026</option>
+      </select>
+    </div>
+
+    <!-- District Select -->
+    <div style="display: flex; align-items: center; gap: 10px;">
+      
+      <label for="district-select" style="font-weight:600; font-size:15px; color:#2c3e50; white-space: nowrap;">
+        Select District (Maharashtra Only):
+      </label>
+      <select id="district-select" style="padding: 10px 16px; border: 2px solid #3498db; border-radius: 5px; font-size: 15px; font-weight: bold; color: #2c3e50; background: #f7fcff; outline:black; cursor: pointer; appearance: none;">
+        <option value="all">All Districts</option>
+        <option value="Mumbai City">Mumbai City</option>
+        <option value="Mumbai Suburban">Mumbai Suburban</option>
+        <option value="Thane">Thane</option>
+        <option value="Pune">Pune</option>
+        <option value="Nagpur">Nagpur</option>
+        <option value="Nashik">Nashik</option>
+        <option value="Aurangabad">Aurangabad</option>
+        <option value="Solapur">Solapur</option>
+        <option value="Satara">Satara</option>
+        <option value="Kolhapur">Kolhapur</option>
+        <option value="Amravati">Amravati</option>
+        <option value="Akola">Akola</option>
+        <option value="Latur">Latur</option>
+        <option value="Jalgaon">Jalgaon</option>
+        <option value="Raigad">Raigad</option>
+        <option value="Sangli">Sangli</option>
+        <option value="Chandrapur">Chandrapur</option>
+        <option value="Ahmednagar">Ahmednagar</option>
+        <option value="Dhule">Dhule</option>
+        <option value="Wardha">Wardha</option>
+        <option value="Buldhana">Buldhana</option>
+        <option value="Yavatmal">Yavatmal</option>
+        <option value="Osmanabad">Osmanabad</option>
+        <option value="Beed">Beed</option>
+        <option value="Gadchiroli">Gadchiroli</option>
+        <option value="Ratnagiri">Ratnagiri</option>
+        <option value="Sindhudurg">Sindhudurg</option>
+        <option value="Palghar">Palghar</option>
+        <option value="Hingoli">Hingoli</option>
+        <option value="Nandurbar">Nandurbar</option>
+        <option value="Jalna">Jalna</option>
+        <option value="Parbhani">Parbhani</option>
+        <option value="Gondia">Gondia</option>
+        <option value="Raigarh">Raigarh</option>
+        <option value="Washim">Washim</option>
+
+      </select>
+    </div>
+
+  </div>
+<!-- ================= DONUT SECTION ================= -->
+<div class="donut-wrapper">
+
+  <!-- LEFT: Donut Chart Card -->
+  <div class="donut-chart-card">
+    <div id="donut-title" class="donut-title"></div>
+    <div id="donutchart"></div>
+  </div>
+
+  <!-- RIGHT: Side Stats Cards -->
+  <div class="donut-side-cards">
+
+    <div id="donut-highest-card" class="donut-stat-card">
+      <h3>🔝 Highest Cases</h3>
+      <p>-</p>
+    </div>
+
+    <div id="donut-lowest-card" class="donut-stat-card">
+      <h3>🔽 Lowest Cases</h3>
+      <p>-</p>
+    </div>
+
+    <div id="donut-trend-card" class="donut-stat-card">
+      <h3>📈 Biggest Change</h3>
+      <p>-</p>
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+<div style="width: 100%; box-sizing: border-box; margin-top: 70px; padding: 16px 20px; background: #f0f0f0; border-left: 4px solid #828282; border-radius: 6px; color: #2c3e50; font-size: 16px; line-height: 1.5; text-align: left;">
+  ⚠️ <strong>Disclaimer:</strong><br><br>
+  • District-level data is currently available only for <strong>Maharashtra</strong> and includes viral diseases for which public data is accessible from verified sources such as the Integrated Disease Surveillance Programme (IDSP), National Health Mission (NHM), NACO, and others.<br>
+  • All figures presented are <strong>approximate estimates</strong>, derived from reported cases, seroprevalence studies, and modeled projections based on historical trends.<br>
+  • If additional district-level data or new viral disease surveillance becomes available for Maharashtra or other states, it will be added in future updates to improve coverage and accuracy.<br>
+  • This dashboard is intended for <strong>informational and analytical purposes only</strong> and should not be used as a substitute for official public health advisories.
+</div>
+</section>
+<footer class="footer">
+        <p>&copy; HealthGuard 2025 | All Rights Reserved</p>
+    </footer>
+</main>
+<script>
+function fixMobileFilters() {
+
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+  const container = document.querySelector('#district div[style*="max-width"]');
+  const yearFilter = document.querySelector('.year-filter');
+  const districtFilter = container.children[1];
+
+  if (isMobile) {
+
+    // Stack layout only
+    container.style.display = "block";
+
+    yearFilter.style.display = "block";
+    districtFilter.style.display = "block";
+
+    // Make dropdowns full width
+    document.getElementById("districtyear").style.width = "100%";
+    document.getElementById("district-select").style.width = "100%";
+
+    // Labels spacing
+    yearFilter.querySelector("label").style.display = "block";
+    yearFilter.querySelector("label").style.marginBottom = "8px";
+
+    districtFilter.querySelector("label").style.display = "block";
+    districtFilter.querySelector("label").style.marginBottom = "8px";
+
+  } else {
+
+  // Restore original flex layout properly
+  container.style.display = "flex";
+  container.style.flexWrap = "wrap";
+  container.style.justifyContent = "center";
+  container.style.alignItems = "center";
+  container.style.gap = "20px";
+
+  yearFilter.style.display = "flex";
+  yearFilter.style.alignItems = "center";
+  yearFilter.style.gap = "10px";
+
+  districtFilter.style.display = "flex";
+  districtFilter.style.alignItems = "center";
+  districtFilter.style.gap = "10px";
+
+  // Reset dropdown width only
+  document.getElementById("districtyear").style.width = "";
+  document.getElementById("district-select").style.width = "";
+
+  // Reset label spacing
+  yearFilter.querySelector("label").style.display = "";
+  yearFilter.querySelector("label").style.marginBottom = "";
+
+  districtFilter.querySelector("label").style.display = "";
+  districtFilter.querySelector("label").style.marginBottom = "";
+}
+}
+
+window.addEventListener("load", fixMobileFilters);
+window.addEventListener("resize", fixMobileFilters);
+</script>
+<script src="js/script1.js"></script>
+<script>
+
+// ---------- FORMAT ----------
+function formatNumberHuman(n) {
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(/\.0$/, '') + "M+";
+  if (n >= 1_000) return (n / 1_000).toFixed(1).replace(/\.0$/, '') + "K+";
+  return n.toString();
+}
+
+// ---------- FETCH YEAR TOTAL ----------
+async function fetchYearTotal(year) {
+  try {
+    const response = await fetch(`/api/state-cases?year=${year}`);
+    const results = await response.json();
+
+    let total = 0;
+    let affected = 0;
+
+    results.forEach(r => {
+      const val = (+r.cases || 0) * 1000;
+      total += val;
+      if (val > 0) affected++;
+    });
+
+    return { total, affected };
+
+  } catch (err) {
+    console.error("Fetch error:", err);
+    return { total: 0, affected: 0 };
+  }
+}
+
+// ---------- FETCH ALL YEARS TOTALS ----------
+async function fetchAllYearTotals() {
+  const yearSelect = document.getElementById("year-select");
+  const years = Array.from(yearSelect.options).map(o => o.value);
+
+  const totals = {};
+
+  for (const y of years) {
+    const data = await fetchYearTotal(y);
+    totals[y] = data.total;
+  }
+
+  return totals;
+}
+
+// ---------- NATIONAL STATS ----------
+async function updateNationalStats(year) {
+
+  const currentData = await fetchYearTotal(year);
+  const totals = await fetchAllYearTotals();
+
+  const currentTotal = currentData.total;
+
+  // TOTAL + AFFECTED
+  document.querySelector("#total-cases").innerText =
+    currentTotal ? formatNumberHuman(currentTotal) : "0";
+
+  document.querySelector("#affected-states").innerText =
+    `${currentData.affected} / 36`;
+
+  // ---------- GROWTH ----------
+  const years = Object.keys(totals).sort();
+  const idx = years.indexOf(String(year));
+
+  let growthText = "—";
+  let trendText = "—";
+
+  if (idx > 0) {
+    const prev = totals[years[idx - 1]];
+    const curr = totals[years[idx]];
+
+    if (prev > 0) {
+      const pct = ((curr - prev) / prev) * 100;
+      growthText = `${pct > 0 ? "+" : ""}${pct.toFixed(1)}%`;
+
+      if (curr > prev) trendText = "🔺 Rising";
+      else if (curr < prev) trendText = "🔻 Falling";
+      else trendText = "➖ Stable";
+    }
+  }
+
+  document.querySelector("#growth-rate").innerText = growthText;
+  document.querySelector("#trend").innerText = trendText;
+
+  // ---------- PEAK ----------
+  let peakYear = "-";
+  let peakVal = 0;
+
+  for (const y in totals) {
+    if (totals[y] > peakVal) {
+      peakVal = totals[y];
+      peakYear = y;
+    }
+  }
+
+  document.querySelector("#peak-year").innerText = peakYear;
+
+  // ---------- LOWEST ----------
+  let lowestYear = "-";
+  let lowestVal = Infinity;
+
+  for (const y in totals) {
+    if (totals[y] > 0 && totals[y] < lowestVal) {
+      lowestVal = totals[y];
+      lowestYear = y;
+    }
+  }
+
+  document.querySelector("#lowest-year").innerText =
+    lowestYear === "-" ? "-" :
+    `${lowestYear} (${formatNumberHuman(lowestVal)})`;
+
+  // ---------- CUMULATIVE ----------
+  let cumulative = 0;
+
+  for (const y in totals) {
+    if (parseInt(y) <= parseInt(year))
+      cumulative += totals[y];
+  }
+
+  document.querySelector("#cumulative-total").innerText =
+    formatNumberHuman(cumulative);
+
+  // ---------- TOP 5 SHARE ----------
+  try {
+    const response = await fetch(`/api/state-cases?year=${year}`);
+    const results = await response.json();
+
+    const values = results
+      .map(r => (+r.cases || 0) * 1000)
+      .sort((a,b)=>b-a);
+
+    const top5Total = values.slice(0,5)
+      .reduce((sum,v)=>sum+v,0);
+
+    const share = currentTotal
+      ? ((top5Total / currentTotal) * 100).toFixed(1)
+      : 0;
+
+    document.querySelector("#top5-share").innerText =
+      currentTotal ? `${share}%` : "—";
+
+  } catch (err) {
+    document.querySelector("#top5-share").innerText = "—";
+  }
+}
+
+// ---------- DROPDOWNS ----------
+const globalYearSelect = document.getElementById("year-select");
+const stateYearSelect = document.getElementById("state-year-select");
+const stateSelect = document.getElementById("state-select");
+
+globalYearSelect.addEventListener("change", function () {
+  const year = this.value;
+
+  if (stateYearSelect)
+    stateYearSelect.value = year;
+
+  updateNationalStats(year);
+
+  const chartTitle = document.getElementById("chart-title");
+  if (chartTitle)
+    chartTitle.innerText = `Monthly Cases in ${year}`;
+
+  if (typeof drawMonthlyChart === "function")
+    drawMonthlyChart(parseInt(year));
+
+  if (typeof drawStateBarChart === "function")
+    drawStateBarChart(parseInt(year), stateSelect.value);
+});
+
+stateYearSelect.addEventListener("change", function () {
+  updateNationalStats(this.value);
+});
+
+stateSelect.addEventListener("change", function () {
+  updateNationalStats(stateYearSelect.value);
+});
+
+// ---------- DEFAULT LOAD ----------
+document.addEventListener("DOMContentLoaded", function () {
+  const defaultYear = document.getElementById("year-select").value;
+  updateNationalStats(defaultYear);
+
+  if (typeof initCharts === "function")
+    initCharts();
+});
+
+</script>
+
+
+<script>
+(function() {
+    const allIndianStates = [
+        "Andhra Pradesh",
+        "Arunachal Pradesh",
+        "Assam",
+        "Bihar",
+        "Chandigarh",
+        "Chhattisgarh",
+        "Delhi",
+        "Goa",
+        "Gujarat",
+        "Haryana",
+        "Himachal Pradesh",
+        "Jammu & Kashmir",
+        "Jharkhand",
+        "Karnataka",
+        "Kerala",
+        "Ladakh",
+        "Madhya Pradesh",
+        "Maharashtra",
+        "Manipur",
+        "Meghalaya",
+        "Mizoram",
+        "Nagaland",
+        "Odisha",
+        "Puducherry",
+        "Punjab",
+        "Rajasthan",
+        "Sikkim",
+        "Tamil Nadu",
+        "Telangana",
+        "Tripura",
+        "Uttar Pradesh",
+        "Uttarakhand",
+        "West Bengal"
+    ];
+
+    const stateDropdownUnique0 = document.getElementById("state-select");
+    const stateDropdownUnique1 = document.getElementById("specific-state-select");
+
+allIndianStates.forEach(st => {
+    const opt1 = document.createElement("option");
+    opt1.value = st;
+    opt1.innerText = st;
+
+    const opt2 = opt1.cloneNode(true); // duplicate option
+
+    stateDropdownUnique0.appendChild(opt1);
+    stateDropdownUnique1.appendChild(opt2);
+});
+})();
+const sections = document.querySelectorAll("main section");
+const sidebarLinks = document.querySelectorAll(".sidebar .menu li a");
+
+window.addEventListener("scroll", () => {
+  const scrollPos = window.scrollY + window.innerHeight / 2; // middle of viewport
+
+  sections.forEach((section, index) => {
+    if (scrollPos >= section.offsetTop && scrollPos < section.offsetTop + section.offsetHeight) {
+      sidebarLinks.forEach(link => link.classList.remove("active"));
+      sidebarLinks[index].classList.add("active");
+    }
+  });
+});
+sidebarLinks.forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute("href"));
+    target.scrollIntoView({ behavior: "smooth" });
+  });
+});
+// New variable names
+const mainYearSelect = document.getElementById("year-select");    // your main global year filter
+const districtYearSelect = document.getElementById("districtyear"); // district chart year filter
+
+// Sync district-year when mainYearSelect changes
+mainYearSelect.addEventListener("change", () => {
+  districtYearSelect.value = mainYearSelect.value; // update district-year to match
+  drawChart();                                     // redraw the chart
+});
+//sync state-select with specific-state-select
+const stateSelectMain = document.getElementById("state-select");
+const specificStateSelect = document.getElementById("specific-state-select");
+stateSelectMain.addEventListener("change", () => {
+  const state = stateSelectMain.value;
+
+  // sync dropdown
+  specificStateSelect.value = state;
+
+  // 🔥 LOAD MAP + UPDATE DATA
+  loadDistrictMapForState(state);
+
+  setTimeout(() => {
+    updateDistrictData();
+  }, 100);
+});
+
+</script>
+<script id="district-map-core">
+/* ==============================
+   ELEMENT REFERENCES (DISTRICT MAP)
+   ============================== */
+const globalYear = document.getElementById("year-select");
+const districtYear =
+  document.getElementById("district-year") ||
+  document.getElementById("districtyear");
+
+
+const mostCasesEl = document.getElementById("most-cases");
+const leastCasesEl = document.getElementById("least-cases");
+const alertCard = document.getElementById("alert-card");
+const alertContent = document.getElementById("alert-content");
+
+const svgIframe = document.getElementById("district-map-iframe");
+const mapPlaceholder = document.getElementById("map-placeholder");
+
+function loadDistrictMapForState(state) {
+  if (!svgIframe) return;
+
+  const normalized = state.toLowerCase();
+
+  // Hide map if "all" or invalid
+  if (normalized === "all") {
+    svgIframe.style.display = "none";
+    mapPlaceholder.style.display = "flex";
+    svgIframe.src = "";
+    return;
+  }
+
+  let mapSrc = "";
+
+  if (normalized === "maharashtra") {
+    mapSrc = "map/map.html";
+  } else if (normalized === "gujarat") {
+    mapSrc = "map/mapgujarat.html";
+  } else if (normalized === "karnataka") {
+    mapSrc = "map/mapkarnataka.html";
+  } else if (normalized === "tamil nadu") {
+    mapSrc = "map/maptamilnadu.html";
+  } 
+  else {
+    // no map yet for this state
+    svgIframe.style.display = "none";
+    mapPlaceholder.innerText = "⚠️ District map not available for this state yet";
+    mapPlaceholder.style.display = "flex";
+    return;
+  }
+
+  // Show iframe + hide placeholder
+  mapPlaceholder.style.display = "none";
+  svgIframe.style.display = "block";
+
+  // Load map only if changed
+  if (!svgIframe.src.includes(mapSrc)) {
+    svgIframe.src = mapSrc;
+  }
+}
+
+/* ==============================
+   ALERT CARD LOGIC
+   ============================== */
+let alertIndex = 0;
+let alertDistricts = [];
+
+function updateAlertCard() {
+  if (!alertDistricts.length) return;
+
+  const [district, count] = alertDistricts[alertIndex];
+  let status = "Safe", statusColor = "#27ae60";
+
+  if (count > 100000) { status = "Alert"; statusColor = "#e74c3c"; }
+  else if (count > 50000) { status = "Caution"; statusColor = "#f39c12"; }
+
+  alertCard.style.opacity = 0;
+  alertCard.style.transform = "scale(0.95)";
+
+  setTimeout(() => {
+    alertCard.style.background = `${statusColor}20`;
+    alertCard.style.border = `1px solid ${statusColor}`;
+    alertCard.style.borderRadius = "10px";
+    alertCard.style.boxShadow = "0 2px 6px rgba(0,0,0,0.1)";
+    alertCard.style.display = "flex";
+    alertCard.style.flexDirection = "column";
+    alertCard.style.justifyContent = "center";
+    alertCard.style.alignItems = "center";
+    alertCard.style.textAlign = "center";
+    alertCard.style.height = "130px";
+    alertCard.style.padding = "10px";
+
+    alertContent.innerHTML = `
+      <div style="font-size:16px; font-weight:bold;">⚠️ District Alert</div>
+      <div style="font-size:18px; font-weight:bold; color:${statusColor};">
+        ${district}: ${count} (${status})
+      </div>
+    `;
+
+    alertCard.style.opacity = 1;
+    alertCard.style.transform = "scale(1)";
+  }, 600);
+
+  alertIndex = (alertIndex + 1) % alertDistricts.length;
+}
+
+/* ==============================
+   FETCH DATA FROM API
+   ============================== */
+async function fetchDistrictData(year, state) {
+  try {
+    const res = await fetch(
+      `/api/district-year-cases?year=${year}&state=${encodeURIComponent(state)}`
+    );
+    return await res.json();
+  } catch (err) {
+    console.error("❌ Error fetching district data:", err);
+    return [];
+  }
+}
+
+
+/* ==============================
+   UPDATE MAP + RIGHT CARDS
+   ============================== */
+async function updateRightCards(year) {
+  const state =
+    document.getElementById("specific-state-select")?.value || "Maharashtra";
+
+  const districtData = await fetchDistrictData(year, state);
+  if (!districtData.length) return;
+
+  const sorted = [...districtData].sort((a, b) => b.cases - a.cases);
+  const most = sorted[0];
+  const least = sorted[sorted.length - 1];
+
+  mostCasesEl.textContent = `${most.district}: ${most.cases}`;
+  leastCasesEl.textContent = `${least.district}: ${least.cases}`;
+
+  alertDistricts = sorted.map(d => [d.district, d.cases]);
+  alertIndex = 0;
+  updateAlertCard();
+
+  // Update SVG map inside iframe
+  if (svgIframe?.contentWindow) {
+
+  const selectedState =
+    document.getElementById("specific-state-select")?.value || "Maharashtra";
+
+  // 1️⃣ prepare district → cases mapping
+const mappedData = {};
+districtData.forEach(d => {
+  const key =
+    "district_" +
+    d.district
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, "_");
+
+  mappedData[key] = d.cases;
+});
+
+
+if (svgIframe.contentWindow.showStateMap) {
+  svgIframe.contentWindow.showStateMap(selectedState);
+
+  // 🔥 wait one frame before coloring
+  requestAnimationFrame(() => {
+    svgIframe.contentWindow.updateDistrictColors(mappedData);
+  });
+}
+
+
+// 3️⃣ apply colors AFTER map switch
+setTimeout(() => {
+  if (svgIframe.contentWindow.updateDistrictColors) {
+    svgIframe.contentWindow.updateDistrictColors(mappedData);
+  }
+}, 50);
+
+}
+}
+
+/* ==============================
+   FILTER HANDLERS
+   ============================== */
+
+specificStateSelect.addEventListener("change", () => {
+  const state = specificStateSelect.value;
+
+  // 🔥 load correct map
+  loadDistrictMapForState(state);
+
+  // wait for iframe reload, then update data
+  setTimeout(() => {
+    updateDistrictData();
+  }, 100);
+});
+async function updateDistrictData() {
+  const year = districtYear.value;
+  await updateRightCards(year);
+}
+
+globalYear.addEventListener("change", () => {
+  districtYear.value = globalYear.value;
+  updateDistrictData();
+});
+
+districtYear.addEventListener("change", updateDistrictData);
+
+/* ==============================
+   INITIAL LOAD
+   ============================== */
+svgIframe.addEventListener("load", () => {
+  const state = specificStateSelect.value || "Maharashtra";
+
+  loadDistrictMapForState(state);
+
+  districtYear.value = globalYear.value || "2025";
+  updateDistrictData();
+});
+
+
+setInterval(updateAlertCard, 3000);
+</script>
+<script id="ui-and-support">
+
+
+window.addEventListener("scroll", () => {
+  const pos = window.scrollY + window.innerHeight / 2;
+  sections.forEach((sec, i) => {
+    if (pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight) {
+      sidebarLinks.forEach(l => l.classList.remove("active"));
+      sidebarLinks[i]?.classList.add("active");
+    }
+  });
+});
+
+/* ==============================
+   SMOOTH SCROLL
+   ============================== */
+sidebarLinks.forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    document.querySelector(link.getAttribute("href"))
+      ?.scrollIntoView({ behavior: "smooth" });
+  });
+});
+</script>
+
+<script name="India Map Code">
+
+// ================= GLOBAL =================
+let mapChart;
+
+// ================= HELPERS =================
+function formatCases(val){
+  if (val >= 1000000) return Math.round(val/1000000)+'M+';
+  if (val >= 1000) return Math.round(val/1000)+'K+';
+  return val;
+}
+
+function getColor(val){
+  if (val === 0) return "#c8f3ce";        // 0
+  if (val <= 50000) return "#75e469";    // Low
+  if (val <= 200000) return "#33b95b";   // Moderate
+  if (val <= 500000) return "#e6550d";   // High
+  if (val <= 1500000) return "#ff2a43";  // Very High
+  return "#bd0026";                      // Extreme
+}
+
+
+function normalizeName(s){
+  return s.toLowerCase().replace(/\&/g,'and').replace(/[^a-z0-9]/g,'');
+}
+
+// ================= ABBREVIATIONS =================
+const abbrMap = { 
+  maharashtra:"MH", 
+  arunachalpradesh:"AR", 
+  andamanandnicobarislands:"AN",
+  lakshadweep:"LD",
+  andhrapradesh:"AP"
+};
+
+// ================= ALIAS FIX =================
+const alias = { 
+  'arunachalpradesh':'arunanchalpradesh',
+  'delhi':'nctofdelhi'
+};
+
+// ================= GEO DATA =================
+const indiaGeo = Highcharts.maps['countries/in/custom/in-all-disputed'];
+
+// enlarge tiny regions
+indiaGeo.features.forEach(f=>{
+  if(f.properties['hc-key']==='in-an')
+    f['transform']={ scale:4, translateX:70, translateY:-20 };
+  if(f.properties['hc-key']==='in-ar')
+    f['transform']={ scale:1.5, translateX:-30, translateY:0 };
+  if(f.properties['hc-key']==='in-ld')
+    f['transform']={ scale:6, translateX:-50, translateY:0 };
+});
+
+// ================= NAME MAPPING =================
+const nameToKey={};
+
+indiaGeo.features.forEach(f=>{
+  const n = normalizeName(f.properties.name);
+  nameToKey[n] = f.properties['hc-key'];
+});
+
+function findKey(dbName){
+  const n = normalizeName(dbName);
+  if(nameToKey[n]) return nameToKey[n];
+  if(alias[n] && nameToKey[alias[n]]) return nameToKey[alias[n]];
+  return null;
+}
+
+// ================= LOAD MAP FUNCTION =================
+function loadMap(year){
+
+  // Update legend title
+  const legendTitle = document.querySelector(".legend-title");
+  if(legendTitle){
+    legendTitle.textContent = `Viral Cases of ${year}`;
+  }
+
+  fetch(`/api/state-cases?year=${year}`)
+  .then(r => r.json())
+  .then(results => {
+
+    const points = [];
+    const usedKeys = new Set();
+
+    results.forEach(row => {
+
+      const key = findKey(row.state_ut);
+      if(!key) return;
+
+      const val = (+row.cases || 0) * 1000;
+      const abbr = abbrMap[normalizeName(row.state_ut)]
+        || row.state_ut.slice(0,2).toUpperCase();
+
+      points.push({
+        'hc-key': key,
+        value: val,
+        name: row.state_ut,
+        abbr,
+        formattedValue: formatCases(val),
+        color: getColor(val)
+      });
+
+      usedKeys.add(key);
+    });
+
+    // add missing states as 0
+    indiaGeo.features.forEach(f=>{
+      const key = f.properties['hc-key'];
+      if(!usedKeys.has(key)){
+        points.push({
+          'hc-key': key,
+          value: 0,
+          name: f.properties.name,
+          abbr: abbrMap[normalizeName(f.properties.name)]
+            || f.properties.name.slice(0,2).toUpperCase(),
+          formattedValue:'0',
+          color:'#c8f3ce'
+        });
+      }
+    });
+
+    // if already created → update only
+    if(mapChart){
+      mapChart.series[0].setData(points, true);
+      return;
+    }
+
+    // else create first time
+    mapChart = Highcharts.mapChart('container',{
+      chart:{ map: indiaGeo,
+      panning: {
+    enabled: true,
+    type: 'xy'
+  },
+  panKey: 'shift' },
+      title:{ text:'' },
+      credits:{ enabled:false },
+      mapNavigation:{ enabled:false },
+      exporting:{ enabled:false },
+      legend:{ enabled:false },
+      colorAxis:{ visible:false },
+
+      tooltip: {
+  useHTML: true,
+  backgroundColor: 'rgba(255,255,255,0.95)',
+  borderRadius: 10,
+  shadow: true,
+  style: {
+    fontSize: '14px',
+    padding: '8px'
+  },
+  outside: false,
+  followPointer: true,
+  followTouchMove: true,
+  split: false,
+  shared: false
+},
+
+
+      series:[{
+        data: points,
+        joinBy:'hc-key',
+        borderColor:'#fff',
+        nullColor:'#f0f0f0',
+        states:{ hover:{ enabled:false } },
+        dataLabels: {
+    enabled: true,
+    formatter: function () {
+        return this.point.abbr;
+    },
+    style: {
+        fontWeight: 'bold',
+        fontSize: '10px',
+        color: '#ffffff',          // ← force white
+        textOutline: '1px #000000' // thin black border for readability
+    },
+    allowOverlap: true
+}
+
+      }]
+    });
+
+  })
+  .catch(err=>{
+    console.error("Map load error:", err);
+  });
+}
+
+// ================= INIT =================
+document.addEventListener("DOMContentLoaded", function(){
+
+  const yearSelect = document.getElementById("year-select");
+
+  // load default year
+  loadMap(yearSelect.value);
+
+  // on year change
+  yearSelect.addEventListener("change", function(){
+    loadMap(this.value);
+  });
+
+  // resize fix
+  window.addEventListener("resize", ()=>{
+    if(mapChart){
+      mapChart.reflow();
+    }
+  });
+
+});
+
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const toggleBtn = document.getElementById("menu-toggle");
+  const sidebar = document.querySelector(".sidebar");
+  const overlay = document.getElementById("sidebar-overlay");
+
+  if (!toggleBtn) {
+    console.error("Hamburger button not found");
+    return;
+  }
+
+  toggleBtn.addEventListener("click", function () {
+    sidebar.classList.toggle("active");
+    overlay.classList.toggle("active");
+  });
+
+  overlay.addEventListener("click", function () {
+    sidebar.classList.remove("active");
+    overlay.classList.remove("active");
+  });
+
+});
+</script>
+
+
+<!-- Tooltip -->
+<div id="map-tooltip" style="position:absolute; background:#fff; padding:5px 10px; border-radius:5px; border:1px solid #ccc; pointer-events:none; display:none;"></div>
+</body>
+</html>

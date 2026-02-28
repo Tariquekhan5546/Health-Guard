@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Developed by [Tarique Khan]-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" type="image/png" href="images/iconlogo.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>HealthGuard Donation Form</title>
+  <meta name="format-detection" content="telephone=no">
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      background-color: #fdfaf6;
+    }
+.donation-section {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f5f7fa, #e4ebf0);
+}
+
+.donation-card {
+  width: 100%;
+  max-width: 900px;
+  background: #fff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.donation-header {
+  text-align: center;
+}
+
+.donation-header h2 {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 15px;
+}
+
+input, select {
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  width: 100%;
+}
+
+input:focus, select:focus {
+  border-color: #2fb1ad;
+  outline: none;
+}
+
+.full {
+  width: 100%;
+}
+
+.section h4 {
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.amount-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
+  gap: 10px;
+}
+
+.amount-btn {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.amount-btn:hover,
+.amount-btn.active {
+  background: #2fb1ad;
+  color: #fff;
+  border-color: #2fb1ad;
+}
+
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+  gap: 15px;
+}
+
+.method-grid label {
+  position: relative;
+  background: #f7f7f7;
+  padding: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.method-grid input {
+  display: none;
+}
+
+.method-grid label:hover {
+  border-color: #2fb1ad;
+}
+
+.method-grid input:checked + span {
+  color: #fff;
+}
+
+.method-grid input:checked + span::before {
+  content: "";
+}
+
+.method-grid input:checked ~ label,
+.method-grid label:has(input:checked) {
+  background: #2fb1ad;
+  color: #fff;
+  border-color: #2fb1ad;
+}
+
+
+.terms {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.terms input {
+  width: 18px;
+  height: 18px;
+}
+select {
+  appearance: none;
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  border-radius: 10px;
+}
+
+
+.donate-btn {
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg,#2fb1ad,#1c7c78);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.donate-btn:hover {
+  opacity: 0.9;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .donation-card {
+    padding: 25px;
+  }
+}
+
+/* Header */
+.main-header {
+  background: #000;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1000;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+/* Desktop hide mobile */
+.mobile-menu,
+.menu-overlay {
+  display: none;
+}
+
+/* Desktop Nav spacing */
+.desktop-nav {
+  gap: 8px;
+}
+
+.desktop-buttons {
+  gap: 10px;
+}
+
+/* ---------------- MOBILE ---------------- */
+@media (max-width: 992px) {
+
+  .desktop-nav,
+  .desktop-buttons {
+    display: none !important;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 75%;
+    max-width: 320px;
+    height: 100vh;
+    background: #000;
+    padding: 80px 20px 20px;
+    transition: 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 9999;
+  }
+
+  .mobile-menu.active {
+    left: 0;
+  }
+
+  .mobile-menu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #333;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .mobile-buttons {
+    margin-top: auto;
+  }
+
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+    z-index: 9998;
+  }
+
+  .menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+.hg-footer {
+  background: #0e0e0e;
+  color: #ddd;
+  padding: 60px 20px 20px;
+  font-family: 'Rubik', sans-serif;
+}
+
+.hg-footer-container {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+}
+
+.hg-footer h3 {
+  color: #fff;
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.hg-footer h4 {
+  color: #fff;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.hg-footer p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #aaa;
+}
+
+.hg-footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.hg-footer ul li {
+  margin-bottom: 10px;
+}
+
+.hg-footer ul li a {
+  text-decoration: none;
+  color: #aaa;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.hg-footer ul li a:hover {
+  color: #2fb1ad;
+}
+
+.hg-footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #222;
+  font-size: 13px;
+  color: #888;
+}
+.donation-success {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #2fb1ad;
+  color: #fff;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 0.4s ease;
+  z-index: 9999;
+}
+
+.donation-success.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="main-header">
+  <div class="container d-flex align-items-center justify-content-between">
+
+    <!-- Left Side -->
+    <div class="d-flex align-items-center gap-4">
+
+      <!-- Hamburger (Mobile Only) -->
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <!-- Logo -->
+      <img src="images/icon.jpg" width="55" height="51"
+           alt="HealthGuard"
+           onclick="window.location.href='index.html'"
+           style="cursor:pointer;">
+    </div>
+
+    <!-- Desktop Nav -->
+    <ul class="nav desktop-nav mb-0 align-items-center">
+      <li><a href="index.html" class="nav-link text-white">Home</a></li>
+      <li><a href="diseasedashboard.html" class="nav-link text-white">Dashboard</a></li>
+      <li><a href="hospitallocator.html" class="nav-link text-white">Hospitals</a></li>
+      <li><a href="donationform.html" class="nav-link text-white active-link">Donate Us</a></li>
+      <li><a href="credits.html" class="nav-link text-white">Credits</a></li>
+    </ul>
+
+    <!-- Desktop Buttons -->
+    <div class="desktop-buttons d-flex align-items-center gap-2">
+      <button class="btn btn-outline-light"
+              onclick="window.location.href='login.html'">Sign In</button>
+      <button class="btn btn-success"
+              onclick="window.location.href='subscribe.html'">Subscribe</button>
+    </div>
+
+  </div>
+</header>
+
+<!-- Mobile Sidebar -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="close-btn" onclick="toggleMenu()">✕</div>
+
+  <a href="index.html">Home</a>
+  <a href="diseasedashboard.html">Dashboard</a>
+  <a href="hospitallocator.html">Hospitals</a>
+  <a href="donationform.html">Donate Us</a>
+  <a href="credits.html">Credits</a>
+
+  <div class="mobile-buttons">
+    <button class="btn btn-outline-light w-100 mb-2"
+            onclick="window.location.href='login.html'">Sign In</button>
+    <button class="btn btn-success w-100"
+            onclick="window.location.href='subscribe.html'">Subscribe</button>
+  </div>
+</div>
+
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+
+<!-- SVG icon definition -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="bootstrap" viewBox="0 0 118 94">
+    <path fill-rule="evenodd" clip-rule="evenodd" 
+          d="M14.9 0h88.2C111.4 0 118 6.5 118 14.5v65c0 8-6.6 14.5-14.9 14.5H14.9C6.6 94 0 87.5 0 79.5v-65C0 6.5 6.6 0 14.9 0zm41.2 24h21.7c8.8 0 14.4 4.5 14.4 11.7 0 5.3-3.6 9.8-8.8 10.7v.3c6.8.7 11.4 5.2 11.4 12 0 8.3-6.5 13.4-16.6 13.4H56.1V24zm8.7 9.4v10.8h10.8c4.3 0 6.8-2 6.8-5.5s-2.5-5.3-6.8-5.3H64.8zm0 19.9v12.3H77c4.8 0 7.6-2.2 7.6-6.2 0-4-2.8-6.1-7.6-6.1H64.8z"/>
+  </symbol>
+</svg>
+    
+<section class="donation-section">
+  <form class="donation-card">
+
+    <div class="donation-header">
+      <h2>Support HealthGuard</h2>
+      <p>Your contribution helps us build smarter, AI-powered healthcare solutions.</p>
+    </div>
+
+    <!-- Personal Info -->
+    <div class="form-grid">
+      <input type="text" placeholder="First Name" required>
+      <input type="text" placeholder="Middle Name">
+      <input type="text" placeholder="Last Name" required>
+      <input type="email" placeholder="Email Address" required>
+      <input type="tel" placeholder="Phone Number" required>
+    </div>
+
+    <input type="text" placeholder="Address Line 1" class="full">
+    <input type="text" placeholder="Address Line 2" class="full">
+
+    <div class="form-grid">
+      <input type="text" placeholder="City">
+      <input type="text" placeholder="State">
+      <input type="text" placeholder="Zip Code">
+    </div>
+
+    <!-- Donation Amount -->
+    <div class="section">
+      <h4>Select Amount</h4>
+      <div class="amount-grid">
+        <button type="button" class="amount-btn">$10</button>
+        <button type="button" class="amount-btn">$25</button>
+        <button type="button" class="amount-btn">$50</button>
+        <button type="button" class="amount-btn">$100</button>
+        <button type="button" class="amount-btn">$250</button>
+        <button type="button" class="amount-btn" id="customBtn">Custom</button>
+      </div>
+      <input type="number" id="customAmount" placeholder="Enter custom amount" class="full hidden">
+    </div>
+
+    <!-- Frequency -->
+    <div class="section">
+      <h4>Donation Frequency</h4>
+      <select class="full">
+        <option value="">Select frequency</option>
+        <option value="one-time">One-time</option>
+        <option value="monthly">Monthly</option>
+        <option value="yearly">Yearly</option>
+      </select>
+    </div>
+
+    <!-- Payment Method -->
+    <div class="section">
+      <h4>Payment Method</h4>
+      <div class="method-grid">
+  <label>
+    <input type="radio" name="method" required>
+    <span>Card</span>
+  </label>
+
+  <label>
+    <input type="radio" name="method">
+    <span>PayPal</span>
+  </label>
+
+  <label>
+    <input type="radio" name="method">
+    <span>UPI</span>
+  </label>
+
+  <label>
+    <input type="radio" name="method">
+    <span>Bank Transfer</span>
+  </label>
+</div>
+
+    </div>
+
+    <label class="terms">
+      <input type="checkbox" required>
+      I agree to the terms and conditions
+    </label>
+
+    <button type="submit" class="donate-btn">
+      Donate Now
+    </button>
+
+  </form>
+  <div id="donationSuccess" class="donation-success">
+  🎉 Thank you! Your donation was successful.
+</div>
+
+</section>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+
+<footer class="hg-footer">
+  <div class="hg-footer-container">
+
+    <!-- Brand Section -->
+    <div class="hg-footer-brand">
+      <h3>HealthGuard</h3>
+      <p>Your AI-powered healthcare companion built to keep communities informed and protected.</p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="hg-footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="diseasedashboard.html">Dashboard</a></li>
+        <li><a href="hospitallocator.html">Hospitals</a></li>
+        <li><a href="donationform.html">Donate</a></li>
+        <li><a href="credits.html">Credits</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact -->
+    <div class="hg-footer-contact">
+      <h4>Contact</h4>
+      <p>Email: healthguard2026@gmail.com</p>
+      <p>Phone: +91 00023 239493</p>
+      <p>Maharashtra, India</p>
+    </div>
+
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="hg-footer-bottom">
+    <p>© 2025 HealthGuard. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script>
+const amountButtons = document.querySelectorAll(".amount-btn");
+const customBtn = document.getElementById("customBtn");
+const customInput = document.getElementById("customAmount");
+const form = document.querySelector(".advanced-donation-form");
+const donateBtn = document.querySelector(".donate-btn");
+const successBox = document.getElementById("donationSuccess");
+
+// Handle amount selection
+amountButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    amountButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    if (btn === customBtn) {
+      customInput.classList.remove("hidden");
+      customInput.focus();
+    } else {
+      customInput.classList.add("hidden");
+      customInput.value = "";
+    }
+  });
+});
+
+// Form submission
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  let selectedAmountBtn = document.querySelector(".amount-btn.active");
+  let selectedMethod = document.querySelector("input[name='payment']:checked");
+  let termsChecked = document.getElementById("agreeTerms").checked;
+
+  // Validate amount
+  let amount = "";
+  if (selectedAmountBtn) {
+    if (selectedAmountBtn === customBtn) {
+      amount = customInput.value.trim();
+      if (!amount || isNaN(amount) || Number(amount) <= 0) {
+        alert("Please enter a valid custom donation amount.");
+        return;
+      }
+    } else {
+      amount = selectedAmountBtn.dataset.amount;
+    }
+  } else {
+    alert("Please select a donation amount.");
+    return;
+  }
+
+  // Validate payment method
+  if (!selectedMethod) {
+    alert("Please select a payment method.");
+    return;
+  }
+
+  // Validate terms
+  if (!termsChecked) {
+    alert("You must agree to the terms and conditions.");
+    return;
+  }
+
+  // Simulate processing
+  donateBtn.disabled = true;
+  donateBtn.innerText = "Processing...";
+
+  setTimeout(() => {
+    donateBtn.disabled = false;
+    donateBtn.innerText = "Donate Now";
+
+    // Show success message
+    successBox.classList.add("show");
+
+    // Log donation (so you see it's working)
+    console.log("Donation Successful:");
+    alert(`Thank you for your donation of $${amount}!`);
+    console.log({
+      amount: amount,
+      paymentMethod: selectedMethod.value,
+      date: new Date().toLocaleString()
+    });
+
+    form.reset();
+    amountButtons.forEach(b => b.classList.remove("active"));
+    customInput.classList.add("hidden");
+
+    setTimeout(() => {
+      successBox.classList.remove("show");
+    }, 4000);
+
+  }, 2000);
+});
+</script>
+
+
+  <script>
+function toggleMenu() {
+  document.getElementById("mobileMenu").classList.toggle("active");
+  document.getElementById("menuOverlay").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>

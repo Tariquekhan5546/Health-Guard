@@ -1,0 +1,1478 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Healthguard User</title>
+<link rel="icon" href="images/icon2.png" type="image/jpeg">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+/* -------------------- General -------------------- */
+body { 
+  overflow-x: hidden; 
+  font-family: Arial, sans-serif;
+  background-color: #fefefe;
+}
+
+/* -------------------- Sidebar -------------------- */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #212529;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: width 0.3s, padding 0.3s;
+  padding: 1rem;
+  z-index: 1050;
+}
+
+.sidebar.collapsed {
+  width: 70px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* -------------------- Sidebar Links -------------------- */
+.sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fafdff;
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.sidebar .nav-link i {
+  min-width: 24px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.sidebar .nav-link.active {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.sidebar .nav-link:hover {
+  color: #fff;
+}
+
+/* -------------------- Sidebar Text -------------------- */
+.sidebar-text {
+  flex: 1;
+  transition: opacity 0.3s;
+}
+
+.sidebar.collapsed .sidebar-text {
+  display: none;
+}
+
+/* Tooltip on collapsed hover */
+.sidebar.collapsed .nav-link:hover::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #212529;
+  padding: 3px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 1100;
+  font-size: 0.9rem;
+}
+
+/* -------------------- Sidebar Toggle Button -------------------- */
+.toggle-btn {
+  display: inline-block;
+  background-color: #212529;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar.collapsed .toggle-btn {
+  display: none;
+}
+
+/* -------------------- Sidebar Divider -------------------- */
+.sidebar hr {
+  border-color: rgba(255,255,255,0.2);
+  transition: opacity 0.3s;
+}
+
+.sidebar.collapsed hr {
+  display: none;
+}
+
+/* -------------------- Main Content -------------------- */
+.main-content {
+  margin-left: 250px;
+  padding: 2rem;
+  transition: margin-left 0.3s;
+}
+
+.sidebar.collapsed ~ .main-content {
+  margin-left: 70px;
+}
+/* ================= MOBILE USER PAGE FIX ================= */
+@media (max-width: 991px) {
+
+  /* Mobile header */
+  .mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 55px;
+    background: #212529;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    z-index: 1100;
+  }
+
+  /* Sidebar hidden by default */
+  .sidebar {
+    left: -250px;
+    transition: left 0.3s ease;
+  }
+
+  .sidebar.mobile-open {
+    left: 0;
+  }
+
+  /* Overlay */
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    z-index: 1040;
+  }
+
+  .sidebar-overlay.active {
+    display: block;
+  }
+
+  /* Main content spacing */
+  .main-content {
+    margin-left: 0 !important;
+    padding-top: 70px;
+  }
+
+  /* ❌ Hide Analytics option on mobile */
+  .nav-link[data-text="Analytics"] {
+    display: none !important;
+  }
+
+}
+.leaderboard-table {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.leaderboard-table tbody tr {
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  border-radius: 10px;
+  transition: 0.2s ease;
+}
+
+.leaderboard-table tbody tr:hover {
+  transform: translateY(-2px);
+}
+
+.leaderboard-table td,
+.leaderboard-table th {
+  border: none !important;
+}
+
+.highlight-row {
+  background: linear-gradient(90deg, #f0f7ff, #ffffff);
+  border-left: 4px solid #0d6efd;
+  font-weight: 500;
+}
+
+
+.badge-cell {
+  font-size: 22px;
+}
+/* Rank Circle Base */
+.rank-circle {
+  width: 45px;
+  height: 45px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* 🥇 GOLD */
+.rank-1 {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #000;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+}
+
+/* 🥈 SILVER */
+.rank-2 {
+  background: linear-gradient(135deg, #E5E4E2, #A9A9A9);
+  color: #000;
+  box-shadow: 0 0 10px rgba(192, 192, 192, 0.6);
+}
+
+/* 🥉 BRONZE */
+.rank-3 {
+  background: linear-gradient(135deg, #CD7F32, #A0522D);
+  color: #fff;
+  box-shadow: 0 0 8px rgba(205, 127, 50, 0.5);
+}
+
+/* Others */
+.rank-other {
+  background: #f1f1f1;
+  color: #333;
+}
+
+/* Hover lift */
+.rank-circle:hover {
+  transform: scale(1.08);
+}
+
+@media (max-width: 768px) {
+  .leaderboard-table td {
+    padding: 10px 8px;
+    font-size: 14px;
+  }
+
+  .badge-cell {
+    font-size: 20px;
+  }
+}
+@media (max-width: 576px) {
+  .rank-circle {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+}
+
+#leaderboard-summary .col-4 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#leaderboard-summary small {
+  font-size: 13px;
+  color: #6c757d;
+}
+#leaderboard-summary .fs-4 {
+  font-size: 28px !important;
+}
+
+#leaderboard-summary .fw-bold {
+  font-size: 20px;
+}
+.summary-card {
+  transition: all 0.3s ease;
+}
+
+/* 🥇 GOLD */
+.rank-gold {
+  border: 2px solid #FFD700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+/* 🥈 SILVER */
+.rank-silver {
+  border: 2px solid #C0C0C0;
+  box-shadow: 0 0 15px rgba(192, 192, 192, 0.5);
+}
+
+/* 🥉 BRONZE */
+.rank-bronze {
+  border: 2px solid #CD7F32;
+  box-shadow: 0 0 12px rgba(205, 127, 50, 0.4);
+}
+
+/* Default */
+.rank-normal {
+  border: 1px solid #e0e0e0;
+}
+@keyframes goldPulse {
+  0% { box-shadow: 0 0 15px rgba(255,215,0,0.4); }
+  50% { box-shadow: 0 0 25px rgba(255,215,0,0.8); }
+  100% { box-shadow: 0 0 15px rgba(255,215,0,0.4); }
+}
+
+.rank-gold {
+  animation: goldPulse 2s infinite;
+}
+#downloadreport-section .card {
+  transition: 0.3s ease;
+}
+
+#downloadreport-section .card:hover {
+  transform: translateY(-3px);
+}
+
+#downloadreport-section table th {
+  font-weight: 600;
+}
+
+#downloadreport-section table td {
+  font-size: 14px;
+}
+
+.pagination .page-link {
+  border: none;
+  background: #f8f9fa;
+  color: #333;
+  border-radius: 10px;
+  margin: 0 4px;
+  transition: all 0.2s ease;
+}
+
+.pagination .page-link:hover {
+  background: #e7f1ff;
+  color: #0d6efd;
+}
+
+.pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, #0d6efd, #3a8dff);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(13,110,253,0.3);
+}
+
+#downloadreport-section .btn {
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#downloadreport-section .btn:hover {
+  transform: translateY(-2px);
+}
+#analytics-section {
+  padding: 0 !important;
+}
+
+.analytics-frame {
+  width: 100%;
+  height: calc(100vh - 100px); /* adjust if needed */
+  border: none;
+  display: block;
+}
+
+
+</style>
+</head>
+<body>
+<!-- Mobile Header -->
+<div class="mobile-header d-lg-none">
+  <button id="mobileMenuBtn" class="btn btn-dark">
+    <i class="bi bi-list"></i>
+  </button>
+  <span class="fw-bold ms-2">Healthguard User</span>
+</div>
+
+<div class="sidebar-overlay d-lg-none" id="sidebarOverlay"></div>
+
+<div class="sidebar" id="sidebar">
+  <div class="flex-grow-1 d-flex flex-column">
+    <div class="d-flex align-items-center mb-3 justify-content-between">
+      <div class="d-flex align-items-center" onclick="window.location.href='index.html'">
+        <img src="images/icon1.png" width="40" height="40" style="margin-left: 10px;" alt="HealthGuard" class="me-2">
+        <span class="fs-5 fw-bold sidebar-text" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">Healthguard</span>
+      </div>
+      <button id="sidebarToggle" class="btn btn-sm toggle-btn"><i class="bi bi-list"></i></button>
+    </div>
+    <hr class="text-secondary">
+    <ul class="nav flex-column">
+
+  <!-- Dashboard -->
+  <li class="nav-item">
+    <a href="#" class="nav-link active" data-text="Dashboard">
+      <i class="bi bi-speedometer2"></i>
+      <span class="sidebar-text">Dashboard</span>
+    </a>
+  </li>
+
+  <!-- Data Entry -->
+  <li class="nav-item">
+    <a href="#" class="nav-link" data-text="Data Entry">
+      <i class="bi bi-journal-text"></i>
+      <span class="sidebar-text">Data Entry</span>
+    </a>
+  </li>
+
+  <!-- My Submissions -->
+  <li class="nav-item">
+    <a href="#" class="nav-link" data-text="My Submissions">
+      <i class="bi bi-table"></i>
+      <span class="sidebar-text">My Submissions</span>
+    </a>
+  </li>
+
+  <!-- Health Alerts -->
+  <li class="nav-item">
+    <a href="#" class="nav-link" data-text="Health Alerts">
+      <i class="bi bi-bell"></i>
+      <span class="sidebar-text">Health Alerts</span>
+    </a>
+  </li>
+
+  <!-- Mini Analytics (Mobile Only) -->
+  <li class="nav-item d-lg-none">
+    <a href="#" class="nav-link" data-text="Mini Analytics">
+      <i class="bi bi-bar-chart"></i>
+      <span class="sidebar-text">My Stats</span>
+    </a>
+  </li>
+
+  <!-- Full Analytics (Desktop Only) -->
+  <li class="nav-item d-none d-lg-block">
+    <a href="#" class="nav-link" data-text="Analytics">
+      <i class="bi bi-graph-up"></i>
+      <span class="sidebar-text">Analytics</span>
+    </a>
+  </li>
+
+  <!-- Achievements -->
+  <li class="nav-item">
+    <a href="#" class="nav-link" data-text="Achievements">
+      <i class="bi bi-award"></i>
+      <span class="sidebar-text">Achievements</span>
+    </a>
+  </li>
+
+  <!-- Download Report -->
+  <li class="nav-item">
+    <a href="#" class="nav-link" data-text="Download Report">
+      <i class="bi bi-file-earmark-arrow-down"></i>
+      <span class="sidebar-text">Download Report</span>
+    </a>
+  </li>
+
+</ul>
+
+  </div>
+
+  <hr class="text-secondary m-0">
+  <div class="dropdown px-3 mt-2">
+    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown">
+      <i class="bi bi-person-circle fs-4 me-2"></i><strong class="sidebar-text" id="sidebarUserName">USER</strong>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-dark shadow">
+      <li><a class="dropdown-item" href="#" id="settingsBtn">Settings</a></li>
+      <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="main-content">
+
+  <!-- Dashboard -->
+  <div id="dashboard-section">
+    <h1 class="h2">Dashboard</h1>
+    <p id="dashboardGreeting">Welcome to the Healthguard user panel.</p>
+    <div class="row g-3 mt-3">
+      <div class="col-md-6">
+        <div class="card text-center clickable-card" onclick="document.querySelector('.nav-link[data-text=\'Data Entry\']').click();">
+          <div class="card-body">
+            <div class="fs-2 mb-2">🧪</div>
+            <h5 class="card-title">Total Entries</h5>
+            <p class="card-text" id="totalEntries">50</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="card text-center clickable-card" onclick="document.querySelector('.nav-link[data-text=\'Data Entry\']').click();">
+          <div class="card-body">
+            <div class="fs-2 mb-2">📅</div>
+            <h5 class="card-title">Recent Submissions</h5>
+            <p class="card-text" id="recentSubmissions">Today: 5</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <style>
+.clickable-card { cursor: pointer; transition: transform 0.2s; }
+.clickable-card:hover { transform: scale(1.03); }
+</style>
+
+  <!-- Data Entry -->
+  <div id="dataentry-section" style="display:none;">
+    <h1 class="h2">Add Viral Disease Data</h1>
+    <form class="mt-3 mb-4">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label>Disease</label>
+          <select class="form-select">
+           <option value="" disabled selected>Select Disease</option>
+           <option>COVID-19</option>
+           <option>Dengue</option>
+           <option>Chikungunya</option>
+           <option>Zika</option>
+           <option>HFMD</option>
+           <option>Hepatitis A/E</option>
+           <option>Other</option>
+         </select>
+        </div>
+        <div class="col-md-3">
+          <label for="dataState">State</label>
+          <select class="form-control" id="dataState">
+            <option value="" disabled selected>-- Select State --</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+            <option value="Assam">Assam</option>
+            <option value="Bihar">Bihar</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Jharkhand">Jharkhand</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Manipur">Manipur</option>
+            <option value="Meghalaya">Meghalaya</option>
+            <option value="Mizoram">Mizoram</option>
+            <option value="Nagaland">Nagaland</option>
+            <option value="Odisha">Odisha</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Tripura">Tripura</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Uttarakhand">Uttarakhand</option>
+            <option value="West Bengal">West Bengal</option>
+            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+            <option value="Chandigarh">Chandigarh</option>
+            <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+            <option value="Ladakh">Ladakh</option>
+            <option value="Lakshadweep">Lakshadweep</option>
+            <option value="Puducherry">Puducherry</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label>District</label>
+          <select class="form-select" id="dataDistrict">
+            <option value="">Select District</option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <label>Date</label>
+          <input type="date" class="form-control">
+        </div>
+        <div class="col-md-1">
+          <label>Count</label>
+          <input type="number" class="form-control" min="0" value="0">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary mt-3">Add Entry</button>
+    </form>
+
+   <div class="table-responsive mt-3">
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Disease</th>
+      <th>State</th>
+      <th>District</th>
+      <th>Date</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody id="entries-table">
+    <tr><td colspan="5">Loading...</td></tr>
+  </tbody>
+</table></div>
+
+  </div>
+
+  <!-- Analytics -->
+  <div id="analytics-section" style="display:none;">
+    <iframe src="demo.html" 
+        style="width:100%; height:calc(100vh - 20px); border:none; display:block;">
+</iframe>
+  </div>
+  <!-- My Submissions -->
+  <div id="mysubmissions-section" style="display:none;">
+  <h1 class="h2">My Submissions</h1>
+
+  <div class="table-responsive">
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>Disease</th>
+          <th>State</th>
+          <th>District</th>
+          <th>Count</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="mysubmissions-table">
+        <tr><td colspan="6">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div id="healthalerts-section" style="display:none;">
+  <h1 class="h2">Health Alerts</h1>
+  <p>Latest alerts for your state.</p>
+
+  <div id="alerts-container" class="mt-3">
+    <div class="alert alert-secondary">Loading alerts...</div>
+  </div>
+</div>
+<!-- My Stats -->
+<div id="minianalytics-section" style="display:none;">
+  <h1 class="h2">My Stats</h1>
+
+  <div class="row g-3 mt-3">
+
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h6>Total Submissions</h6>
+          <h3 id="stat-total">0</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h6>Approved</h6>
+          <h3 id="stat-approved">0</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h6>Pending</h6>
+          <h3 id="stat-pending">0</h3>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mt-4">
+    <canvas id="diseaseChart"></canvas>
+  </div>
+</div>
+<!-- Achievements -->
+<div id="achievements-section" style="display:none;">
+  <h1 class="h2">Achievements</h1>
+  <div id="leaderboard-summary" class="mb-4"></div>
+<div id="achievements-container"></div>
+
+</div>
+<!-- Download Report -->
+<div id="downloadreport-section" style="display:none;">
+
+  <h1 class="h2 mb-4">Download Reports</h1>
+<!-- FILTERS -->
+  <div class="row g-2 align-items-end">
+    <!-- Month Filter -->
+    <div class="col-lg-3 col-md-6">
+      <label class="form-label small fw-semibold">Month</label>
+      <select id="filterMonth" class="form-select form-select-sm">
+        <option value="">All</option>
+        <option value="01">Jan</option>
+        <option value="02">Feb</option>
+        <option value="03">Mar</option>
+        <option value="04">Apr</option>
+        <option value="05">May</option>
+        <option value="06">Jun</option>
+        <option value="07">Jul</option>
+        <option value="08">Aug</option>
+        <option value="09">Sep</option>
+        <option value="10">Oct</option>
+        <option value="11">Nov</option>
+        <option value="12">Dec</option>
+      </select>
+    </div>
+
+    <!-- Year Filter -->
+    <div class="col-lg-3 col-md-6">
+      <label class="form-label small fw-semibold">Year</label>
+      <select id="filterYear" class="form-select form-select-sm">
+        <option value="2026" selected>2026</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+      </select>
+    </div>
+
+    <!-- Apply Button -->
+    <div class="col-lg-3 col-md-6">
+      <button class="btn btn-primary btn-sm w-100 fw-semibold"
+              onclick="loadReports(1)">
+        Apply
+      </button>
+    </div>
+
+  </div>
+<br><br>
+
+
+
+  <!-- REPORT TABLE -->
+  <div class="card shadow-sm border-0 rounded-4" id="report-card">
+
+  <div class="card-body">
+
+
+      <div class="table-responsive">
+        <table class="table table-striped align-middle">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Disease</th>
+              <th>Count</th>
+              <th>District</th>
+              <th>State</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="report-table-body">
+            <tr>
+  <td colspan="6" class="text-center text-muted py-4">
+    Loading reports...
+  </td>
+</tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PAGINATION -->
+      <nav class="mt-3">
+        <ul class="pagination justify-content-center" id="report-pagination"></ul>
+      </nav>
+
+    </div>
+  </div>
+
+<div class="mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
+
+  <button class="btn btn-danger px-4 py-2 fw-semibold shadow-sm"
+          onclick="downloadPDF()">
+    <i class="bi bi-file-earmark-pdf"></i> Download PDF
+  </button>
+
+  <button class="btn btn-success px-4 py-2 fw-semibold shadow-sm"
+          onclick="downloadCSV()">
+    <i class="bi bi-file-earmark-spreadsheet"></i> Download CSV
+  </button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script>
+  const token = sessionStorage.getItem('token');
+
+document.addEventListener('DOMContentLoaded', () => {
+  if(!token){
+    // No token, redirect immediately
+    window.location.href = 'login.html';
+    return; // stop further JS execution
+  }
+
+  const sidebar = document.getElementById('sidebar');
+  const dataStateEl = document.getElementById('dataState');
+  const dataDistrictEl = document.getElementById('dataDistrict');
+  const entriesTable = document.getElementById('entries-table');
+
+  // ------------------- Sidebar toggle -------------------
+  document.getElementById('sidebarToggle').addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+  });
+
+  // ------------------- Section switching -------------------
+  const sections = {
+  'Dashboard': 'dashboard-section',
+  'Data Entry': 'dataentry-section',
+  'Analytics': 'analytics-section',
+  'My Submissions': 'mysubmissions-section',
+  'Health Alerts': 'healthalerts-section',
+  'Mini Analytics': 'minianalytics-section',
+  'Achievements': 'achievements-section',
+  'Download Report': 'downloadreport-section'
+};
+
+
+
+  document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+
+      Object.values(sections).forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+});
+
+      const text = this.getAttribute('data-text');
+      if (sections[text]) {
+  const el = document.getElementById(sections[text]);
+  if (el) el.style.display = 'block';
+
+  if (text === 'My Submissions') {
+    loadMySubmissions();
+  }
+  if (text === 'Health Alerts') {
+  loadHealthAlerts();
+}
+  if (text === 'Achievements') {
+  loadAchievements();
+}
+  if (text === 'Download Report') {
+  loadReports();
+}
+
+
+}
+
+
+      if(sidebar.classList.contains('collapsed')) sidebar.classList.remove('collapsed');
+    });
+  });
+
+  // ------------------- Settings & Logout -------------------
+  const settingsBtn = document.getElementById("settingsBtn");
+  if(settingsBtn) settingsBtn.addEventListener("click", () => window.location.href = "usersettings.html");
+
+  const logoutBtn = document.getElementById("logoutBtn");
+  if(logoutBtn) logoutBtn.addEventListener("click", () => {
+    sessionStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+  });
+
+  // ------------------- District Dropdown -------------------
+  const maharashtraDistricts = [
+    "Mumbai City","Mumbai Suburban","Pune","Nagpur","Nashik","Thane","Aurangabad",
+    "Solapur","Amravati","Nanded","Kolhapur","Jalgaon","Akola","Latur","Buldhana",
+    "Chandrapur","Gondia","Yavatmal","Washim","Satara","Sindhudurg","Ratnagiri",
+    "Raigad","Palghar","Jalna","Parbhani","Hingoli","Beed","Dhule","Nandurbar"
+  ];
+
+  function populateDistricts() {
+    dataDistrictEl.innerHTML = '<option value="">Select District</option>';
+    maharashtraDistricts.forEach(d => {
+      const opt = document.createElement('option');
+      opt.value = d;
+      opt.text = d;
+      dataDistrictEl.appendChild(opt);
+    });
+  }
+
+  function updateDistrictVisibility() {
+    if(dataStateEl.value === 'Maharashtra'){
+      populateDistricts();
+      dataDistrictEl.parentElement.style.display = 'block';
+    } else {
+      dataDistrictEl.value = '';
+      dataDistrictEl.parentElement.style.display = 'none';
+    }
+  }
+
+  dataStateEl.addEventListener('change', updateDistrictVisibility);
+
+  // ------------------- Load user info -------------------
+  async function loadUserInfo(){
+    try {
+      const res = await fetch('/api/user/info', { headers: { 'Authorization': `Bearer ${token}` }});
+      const data = await res.json();
+      if(data.success){
+        const user = data.user;
+        localStorage.setItem("user", JSON.stringify(user));
+        document.getElementById('sidebarUserName').innerText = user.full_name;
+        document.getElementById('dashboardGreeting').innerHTML = `Hello, Mr. <strong>${user.full_name}</strong>! Your email: ${user.email}`;
+        document.getElementById('dataState').value = user.state || '';
+        document.getElementById('dataDistrict').value = user.district || '';
+
+        updateDistrictVisibility();
+
+        loadUserEntries(user.id);
+        loadUserDashboard(user.id);
+      } else window.location.href = 'login.html';
+    } catch(err){
+      console.error(err);
+      window.location.href = 'login.html';
+    }
+  }
+
+  // ------------------- Load past entries for logged-in user -------------------
+  async function loadUserEntries(userId){
+    try {
+      const res = await fetch('/api/data-entry/user', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if(data.success && data.entries){
+        entriesTable.innerHTML = '';
+        data.entries.forEach(entry => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${entry.disease}</td>
+            <td>${entry.state}</td>
+            <td>${entry.district || '-'}</td>
+            <td>${entry.date}</td>
+            <td>${entry.count}</td>
+          `;
+          entriesTable.appendChild(row);
+        });
+      }
+    } catch(err){
+      console.error('Failed to load user entries:', err);
+    }
+  }
+
+  // ------------------- Load dashboard stats for user -------------------
+  async function loadUserDashboard(userId){
+    try {
+      const res = await fetch('/api/data-entry/user', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if(data.success && data.entries){
+        const entries = data.entries;
+
+        // Total Entries
+        document.getElementById('totalEntries').innerText = entries.length;
+
+        // Recent Submissions (Today)
+        const today = new Date().toISOString().split('T')[0];
+        const todayCount = entries.filter(e => e.date.startsWith(today)).length;
+        document.getElementById('recentSubmissions').innerText = `Today: ${todayCount}`;
+      }
+    } catch(err){
+      console.error("Failed to load dashboard entries:", err);
+    }
+  }
+
+  // ------------------- Data Entry Form Submission -------------------
+  const form = document.querySelector('#dataentry-section form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const disease = form.querySelector('select').value;
+    const state = dataStateEl.value.trim();
+    const district = dataDistrictEl.value.trim();
+    const date = form.querySelector('input[type="date"]').value;
+    const count = parseInt(form.querySelector('input[type="number"]').value);
+
+    if (!disease || !state || !date || isNaN(count) || count <= 0 || (state === 'Maharashtra' && !district)) {
+      alert('Please fill in all fields correctly.');
+      return;
+    }
+
+    const user = JSON.parse(localStorage.getItem('user'));
+    if(!user || !user.id){ alert('User not logged in.'); return; }
+
+    const payload = { user_id: user.id, disease, state, district, count, date };
+
+    try {
+      const res = await fetch('/api/data-entry', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+    if(data.success){
+    alert('Entry added successfully!');
+
+    // Add new entry to table
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+      <td>${disease}</td>
+      <td>${state}</td>
+      <td>${state === 'Maharashtra' ? district : '-'}</td>
+      <td>${date}</td>
+      <td>${count}</td>
+    `;
+    entriesTable.prepend(newRow);
+
+    form.reset();
+    updateDistrictVisibility();
+
+    // Update dashboard stats
+    loadUserDashboard(user.id);
+
+} else {
+    alert(data.message || 'Failed to add entry.');
+}
+
+    } catch(err){
+      console.error(err);
+      alert('Server error. Check console for details.');
+    }
+  });
+
+  // ------------------- Initial call -------------------
+  updateDistrictVisibility();
+  loadUserInfo();
+});
+// ------------------- Mobile sidebar -------------------
+const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+mobileMenuBtn?.addEventListener("click", () => {
+  sidebar.classList.add("mobile-open");
+  sidebarOverlay.classList.add("active");
+});
+
+sidebarOverlay?.addEventListener("click", () => {
+  sidebar.classList.remove("mobile-open");
+  sidebarOverlay.classList.remove("active");
+});
+// ------------------- Load user's past submissions for "My Submissions" section -------------------
+async function loadMySubmissions() {
+  console.log("Loading submissions...");
+
+  const tbody = document.getElementById("mysubmissions-table");
+  tbody.innerHTML = "<tr><td colspan='6'>Loading...</td></tr>";
+
+  try {
+    const res = await fetch('/api/user/submissions', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    const data = await res.json();
+
+    if (data.success && data.entries.length > 0) {
+      tbody.innerHTML = "";
+
+      data.entries.forEach(entry => {
+
+        const status = entry.is_approved
+          ? '<span class="badge bg-success">Approved</span>'
+          : '<span class="badge bg-warning text-dark">Pending</span>';
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${entry.disease}</td>
+            <td>${entry.state}</td>
+            <td>${entry.district || '-'}</td>
+            <td>${entry.count}</td>
+            <td>${new Date(entry.added_at).toLocaleDateString()}</td>
+            <td>${status}</td>
+          </tr>
+        `;
+      });
+
+    } else {
+      tbody.innerHTML = "<tr><td colspan='6'>No submissions yet.</td></tr>";
+    }
+
+  } catch (err) {
+    console.error(err);
+    tbody.innerHTML = "<tr><td colspan='6'>Error loading data.</td></tr>";
+  }
+}
+// ------------------- Load health alerts for user's state for "Health Alerts" section -------------------
+async function loadHealthAlerts() {
+  const container = document.getElementById("alerts-container");
+  container.innerHTML = '<div class="alert alert-secondary">Loading alerts...</div>';
+
+  try {
+    const res = await fetch('/api/user/alerts', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    const data = await res.json();
+
+    if (data.success && data.alerts.length > 0) {
+      container.innerHTML = "";
+
+data.alerts.forEach(alert => {
+
+  const change = alert.percentage_change ?? 0;
+  const severityClass =
+    alert.severity === "High" ? "alert-danger" :
+    alert.severity === "Medium" ? "alert-warning" :
+    "alert-info";
+
+  container.innerHTML += `
+    <div class="alert ${severityClass}">
+      <strong>${alert.disease}</strong> in 
+      <strong>${alert.district}</strong> increased by 
+      <strong>${change}%</strong> this week.
+    </div>
+  `;
+});
+
+
+    } else {
+      container.innerHTML = '<div class="alert alert-success">No active alerts this week 🎉</div>';
+    }
+
+  } catch (err) {
+    container.innerHTML = '<div class="alert alert-danger">Failed to load alerts.</div>';
+  }
+}
+// ------------------- Load stats for "My Stats" section and render chart -------------------
+async function loadMyStats() {
+  try {
+    const res = await fetch('/api/user/submissions', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    const data = await res.json();
+
+    if (!data.success) return;
+
+    const entries = data.entries;
+
+    // ---- Basic Counts ----
+    const total = entries.length;
+    const approved = entries.filter(e => e.is_approved).length;
+    const pending = total - approved;
+
+    document.getElementById('stat-total').innerText = total;
+    document.getElementById('stat-approved').innerText = approved;
+    document.getElementById('stat-pending').innerText = pending;
+
+    // ---- Disease Wise Count ----
+    const diseaseMap = {};
+
+    entries.forEach(e => {
+      if (!diseaseMap[e.disease]) {
+        diseaseMap[e.disease] = 0;
+      }
+      diseaseMap[e.disease] += e.count;
+    });
+
+    const labels = Object.keys(diseaseMap);
+    const values = Object.values(diseaseMap);
+
+    const ctx = document.getElementById('diseaseChart').getContext('2d');
+
+    if (window.myChart) {
+      window.myChart.destroy();
+    }
+
+    window.myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Total Cases Submitted',
+          data: values
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+
+  } catch (err) {
+    console.error("Stats load failed:", err);
+  }
+}
+// ------------------- Load leaderboard data for "Achievements" section -------------------
+async function loadAchievements() {
+  const container = document.getElementById("achievements-container");
+  container.innerHTML = "Loading leaderboard...";
+
+  try {
+    const res = await fetch('/api/user/leaderboard', {
+      headers: { 
+        Authorization: 'Bearer ' + sessionStorage.getItem('token') 
+      }
+    });
+
+    const data = await res.json();
+
+    if (!data.success || data.leaderboard.length === 0) {
+      container.innerHTML = `
+        <div class="alert alert-info">
+          No leaderboard data yet.
+        </div>
+      `;
+      return;
+    }
+
+const currentUser = JSON.parse(localStorage.getItem("user"));
+const myData = data.leaderboard.find(row => row.user_id === currentUser.id);
+
+if (myData) {
+
+  let rankClass = "rank-normal";
+
+  if (myData.rank === 1) {
+    rankClass = "rank-gold";
+  } else if (myData.rank === 2) {
+    rankClass = "rank-silver";
+  } else if (myData.rank === 3) {
+    rankClass = "rank-bronze";
+  }
+
+  document.getElementById("leaderboard-summary").innerHTML = `
+    <div class="card summary-card ${rankClass} shadow-sm rounded-4 p-4 text-center">
+      <div class="row text-center">
+        <div class="col-4">
+          <div class="fs-4">🏆</div>
+          <div class="fw-bold">#${myData.rank}</div>
+          <small>Your Rank</small>
+        </div>
+        <div class="col-4">
+          <div class="fs-4">📊</div>
+          <div class="fw-bold">${myData.total_cases}</div>
+          <small>Total Cases</small>
+        </div>
+        <div class="col-4">
+          <div class="fs-4">${myData.badge}</div>
+          <div class="fw-bold text-nowrap">Contributor</div>
+          <small>Badge</small>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+container.innerHTML = `
+  <div class="card shadow-sm border-0 mt-3">
+    <div class="card-body">
+
+      <div class="table-responsive">
+        <table class="table align-middle leaderboard-table">
+          <thead>
+            <tr class="text-muted small">
+              <th>#</th>
+              <th>User</th>
+              <th>Total Cases</th>
+              <th class="text-center">Badge</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.leaderboard.map(row => {
+
+              const isMe = row.user_id === currentUser.id;
+
+              return `
+                <tr class="${isMe ? 'highlight-row' : ''}">
+                  <td>
+                  <div class="rank-circle rank-${row.rank <= 3 ? row.rank : 'other'}">
+                    ${row.rank}
+                  </div>
+                  </td>
+                  <td>
+                    ${isMe 
+                      ? `<span class="fw-bold text-primary">${currentUser.full_name} <span class="text-muted small">(You)</span></span>` 
+                      : `<span class="text-muted">Anonymous</span>`}
+                  </td>
+                  <td class="fw-semibold">${row.total_cases.toLocaleString()}</td>
+                  <td class="text-center badge-cell">${row.badge}</td>
+                </tr>
+              `;
+            }).join("")}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+`;
+
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = `
+      <div class="alert alert-danger">
+        Failed to load leaderboard.
+      </div>
+    `;
+  }
+}
+
+// ------------------- Load Reports (Month + Year only) -------------------
+async function loadReports(page = 1) {
+
+  const month = document.getElementById("filterMonth")?.value || "";
+  const year  = document.getElementById("filterYear")?.value || "";
+
+  const tbody = document.getElementById("report-table-body");
+  const pagination = document.getElementById("report-pagination");
+
+  if (!tbody || !pagination) return;
+
+  tbody.innerHTML =
+    "<tr><td colspan='6' class='text-center'>Loading...</td></tr>";
+
+  try {
+
+    const res = await fetch(
+      `/api/user/reports?page=${page}&month=${month}&year=${year}`,
+      {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token")
+        }
+      }
+    );
+
+    const data = await res.json();
+
+    if (!data.success) {
+      tbody.innerHTML =
+        "<tr><td colspan='6' class='text-center text-danger'>Failed to load data</td></tr>";
+      return;
+    }
+
+    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+    tbody.innerHTML = "";
+
+    if (!data.data || data.data.length === 0) {
+      tbody.innerHTML =
+        "<tr><td colspan='6' class='text-center text-muted py-4'>No records found</td></tr>";
+    } else {
+
+      data.data.forEach(row => {
+
+        const displayName =
+          row.user_id === currentUser.id
+            ? currentUser.full_name
+            : "Anonymous";
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${displayName}</td>
+            <td>${row.disease}</td>
+            <td>${Number(row.count).toLocaleString()}</td>
+            <td>${row.district || "-"}</td>
+            <td>${row.state}</td>
+            <td>${new Date(row.added_at).toLocaleDateString()}</td>
+          </tr>
+        `;
+      });
+    }
+
+    // Pagination
+    pagination.innerHTML = "";
+
+    for (let i = 1; i <= data.totalPages; i++) {
+      pagination.innerHTML += `
+        <li class="page-item ${i === data.page ? "active" : ""}">
+          <a class="page-link" href="#" 
+             onclick="event.preventDefault(); loadReports(${i})">
+            ${i}
+          </a>
+        </li>
+      `;
+    }
+
+  } catch (err) {
+    console.error("Report Load Error:", err);
+    tbody.innerHTML =
+      "<tr><td colspan='6' class='text-center text-danger'>Error loading data</td></tr>";
+  }
+}
+async function downloadCSV() {
+
+  const month = document.getElementById("filterMonth")?.value || "";
+  const week = document.getElementById("filterWeek")?.value || "";
+  const year = document.getElementById("filterYear")?.value || "";
+
+  const res = await fetch(
+    `/api/user/reports?page=1&month=${month}&week=${week}&year=${year}&all=true`,
+    {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token")
+      }
+    }
+  );
+
+  const data = await res.json();
+  if (!data.success) return;
+
+  const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+  let csv = "User,Disease,Count,District,State,Date\n";
+
+  data.data.forEach(row => {
+
+    const displayName =
+      row.user_id === currentUser.id
+        ? currentUser.full_name
+        : "Anonymous";
+
+    csv += `${displayName},${row.disease},${row.count},${row.district || "-"},${row.state},${row.added_at}\n`;
+  });
+
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "healthguard-report.csv";
+  a.click();
+}
+function downloadPDF() {
+
+  const element = document.getElementById("report-card");
+
+  if (!element) return;
+
+  html2pdf()
+    .set({
+      margin: 0.5,
+      filename: "healthguard-report.pdf",
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
+    })
+    .from(element)
+    .save();
+}
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

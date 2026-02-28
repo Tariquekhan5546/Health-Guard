@@ -1,0 +1,21 @@
+{
+    "name": "PawsNest",
+    "short_name": "PawsNest",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4CAF50",
+    "icons": [
+      {
+        "src": "images/icon2.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "images/icon2.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ]
+  }
+  

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>India State Cases Map</title>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="js/dashboardgraph.js"></script>
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  overflow-x: hidden;
+}
+body.iframe-mode {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+
+.map-card, .card_chart {
+  flex: 1;
+
+  margin: 10px 0;
+}
+
+.map-card {
+  background: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  border: 1px solid hsl(0, 0%, 80%);
+}
+
+#container {
+  height: 450px;           /* a bit taller for proportion */
+  width: 100%;             /* let it fill card width */
+}
+
+.legend-card {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  width: 130px;           
+  background: #fbfbfb;
+  border-radius: 8px;
+  padding: 6px 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card_chart {
+  background: white;
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  height: 450px;          /* match map height */
+}
+
+.grid-2_1 {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+#barchart { 
+  flex: 1; 
+  width: 100%; 
+}
+
+.map-card:hover, .card_chart:hover {
+  box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+  transform: translateY(-5px);
+}
+
+.legend-title { 
+  font-weight: bold; 
+  text-align: center; 
+  margin-bottom: 4px; 
+}
+.legend-item { 
+  display: flex; 
+  align-items: center; 
+  gap: 5px; 
+}
+.legend-color { 
+  width: 12px; 
+  height: 12px; 
+  border-radius: 3px; 
+  border: 1px solid #ccc; 
+}
+
+/* ✅ Responsive fix: stack cards on smaller screens */
+@media (max-width: 900px) {
+  .grid-2_1 {
+    flex-direction: column;
+    align-items: center; /* center stacked cards */
+  }
+
+  .map-card, .card_chart {
+    max-width: 100%;     /* take full available width */
+    min-width: 0;        /* remove minimum width constraint */
+    width: 100%;
+    height: auto;        /* let content decide height */
+  }
+
+  #container {
+    height: 350px;       /* smaller map height for mobile */
+  }
+
+  #barchart {
+    height: 350px !important; /* shrink chart too */
+  }
+}
+
+/* Common Info Card Styles */
+.info-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  text-align: center;
+
+  /* Smooth transition for hover */
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Hover effect for Info Cards */
+.info-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+}
+
+/* Default: full width when standalone */
+.right-cards {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;       /* fill available space */
+    max-width: none;   /* remove previous 475px cap */
+}
+body:not(.iframe-mode) .right-cards {
+    max-width: none;   /* remove cap when standalone */
+    width: 100%;       /* fill available space */
+}
+/* When used inside iframe with sidebar, use min-width and cap */
+body.iframe-mode .right-cards {
+    min-width: 370px;  /* allow shrink */
+    max-width: 475px;  /* cap width inside iframe */
+}
+/* Only for standalone page map */
+body:not(.iframe-mode) #container {
+    width: 100%;
+    max-height: 600px;
+}
+
+
+body:not(.iframe-mode) .map-card {
+    flex: none;         /* let it grow freely */
+    width: 50vw;       /* full width */
+    max-width: none;
+    min-width: 0;
+    padding: 12px;
+}
+/* Mobile fix for analytics page */
+/* ================= MOBILE FIX ================= */
+@media (max-width: 768px) {
+
+  body {
+    padding: 0 10px;
+  }
+
+  /* Stack main map + chart */
+  .grid-2_1 {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .map-card,
+  .card_chart {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #container {
+    height: 320px !important;
+  }
+
+  #barchart {
+    height: 320px !important;
+  }
+
+  /* Second section layout */
+  .grid-2_1 > div {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  .map-card iframe {
+    min-height: 300px !important;
+  }
+
+  .right-cards {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .info-card {
+    height: auto !important;
+    padding: 15px !important;
+  }
+
+  /* Reduce spacing */
+  hr {
+    margin: 25px 0;
+  }
+.legend-card {
+  width: 110px;
+  font-size: 10px;
+  bottom: 10px;
+  right: 10px;
+}
+
+}
+
+
+
+</style>
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/mapdata/countries/in/custom/in-all-disputed.js"></script>
+</head>
+<body>
+  <h2>Analytics Dashboard</h2>
+<!-- Side by side wrapper -->
+<div class="grid-2_1">
+  <!-- MAP -->
+  <div class="map-card">
+    <div id="container"></div>
+    <div class="legend-card">
+      <div class="legend-title">Viral Cases of 2025</div>
+      <div class="legend-item"><div class="legend-color" style="background:#d9d9d9"></div>0</div>
+      <div class="legend-item"><div class="legend-color" style="background:#75e469"></div>1 - 20K</div>
+      <div class="legend-item"><div class="legend-color" style="background:#33b95b"></div>20K - 50K</div>
+      <div class="legend-item"><div class="legend-color" style="background:#008937"></div>50K - 100K</div>
+      <div class="legend-item"><div class="legend-color" style="background:#fdae61"></div>100K - 200K</div>
+      <div class="legend-item"><div class="legend-color" style="background:#e6550d"></div>200K - 500K</div>
+      <div class="legend-item"><div class="legend-color" style="background:#ff2a43"></div>500K - 1.5M</div>
+      <div class="legend-item"><div class="legend-color" style="background:#bd0026"></div>&gt; 1.5M</div>
+    </div>
+  </div>
+  
+</div>
+<hr style="margin:20px 0;">
+
+<div class="grid-2_1">
+  <!-- Map + Info Cards Grid -->
+  <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">
+    <!-- Left Side: Map Card -->
+    <div class="map-card" style="flex: 2; min-width: 500px;">
+      <iframe src="map/map.html" width="100%" style="border:none; display:block; height: 100%; min-height: 400px;" scrolling="no"></iframe>
+    </div>
+    <!-- Right Side: Info Cards -->
+<div class="right-cards" style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
+    <div class="info-card" style="padding:10px; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        <h4>📍 District with Most Cases</h4>
+        <p id="most-cases">Loading...</p>
+      </div>
+      <div class="info-card" style="padding:10px; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        <h4>📍 District with Least Cases</h4>
+        <p id="least-cases">Loading...</p>
+      </div>
+      <div class="info-card" id="alert-card" style="padding:10px; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        <div id="alert-content">Loading...</div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <script>
+  if (window !== window.top) {
+    document.body.classList.add('iframe-mode');
+  }
+  </script>
+<script>
+/* ==============================
+   ELEMENT REFERENCES
+   ============================== */
+const mostCasesEl = document.getElementById("most-cases");
+const leastCasesEl = document.getElementById("least-cases");
+const alertCard = document.getElementById("alert-card");
+const alertContent = document.getElementById("alert-content");
+const svgIframe = document.querySelector(".map-card iframe");
+
+let alertIndex = 0;
+let alertDistricts = [];
+
+/* ==============================
+   ALERT CARD FUNCTION
+   ============================== */
+function updateAlertCard() {
+  if (!alertDistricts.length) return;
+  const [district, count] = alertDistricts[alertIndex];
+  let status = "Safe", statusColor = "#27ae60";
+
+  if (count > 100000) { status = "Alert"; statusColor = "#e74c3c"; }
+  else if (count > 50000) { status = "Caution"; statusColor = "#f39c12"; }
+
+  alertCard.style.opacity = 0;
+  alertCard.style.transform = "scale(0.95)";
+
+  setTimeout(() => {
+    alertCard.style.background = `${statusColor}20`;
+    alertCard.style.border = `1px solid ${statusColor}`;
+    alertCard.style.borderRadius = '10px';
+    alertCard.style.boxShadow = `0 2px 6px rgba(0,0,0,0.1)`;
+    alertCard.style.display = 'flex';
+    alertCard.style.flexDirection = 'column';
+    alertCard.style.justifyContent = 'center';
+    alertCard.style.alignItems = 'center';
+    alertCard.style.textAlign = 'center';
+    alertCard.style.height = '130px';
+    alertCard.style.padding = '10px';
+    alertCard.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease, opacity 0.8s';
+    alertCard.style.cursor = 'pointer';
+
+    alertContent.innerHTML = `
+      <div style="font-size:16px; margin-bottom:6px; font-weight:bold;">⚠️ District Alert</div>
+      <div style="font-size:18px; font-weight:bold; color:${statusColor};">
+          ${district}: ${count} (${status})
+      </div>
+    `;
+
+    alertCard.style.opacity = 1;
+    alertCard.style.transform = "scale(1)";
+    alertCard.onmouseenter = () => { alertCard.style.boxShadow = `0 0 20px ${statusColor}80`; }
+    alertCard.onmouseleave = () => { alertCard.style.boxShadow = `0 2px 6px rgba(0,0,0,0.1)`; }
+  }, 500);
+
+  alertIndex = (alertIndex + 1) % alertDistricts.length;
+}
+
+/* ==============================
+   FETCH DISTRICT DATA
+   ============================== */
+async function fetchDistrictData(year = '2026') {
+  try {
+    const res = await fetch(`/api/district-year-cases?year=${year}`);
+    const data = await res.json(); // [{ district: "Mumbai_City", cases: 88182 }, ...]
+    return data;
+  } catch (err) {
+    console.error("❌ Error fetching district-year cases:", err);
+    return [];
+  }
+}
+
+/* ==============================
+   UPDATE INFO CARDS & MAP
+   ============================== */
+async function updateRightCards(year = '2026') {
+  const districtData = await fetchDistrictData(year);
+  if (!districtData.length) return;
+
+  // Sort for most and least cases
+  const sorted = districtData.sort((a, b) => b.cases - a.cases);
+  const most = sorted[0];
+  const least = sorted[sorted.length - 1];
+
+  mostCasesEl.textContent = `${most.district}: ${most.cases}`;
+  leastCasesEl.textContent = `${least.district}: ${least.cases}`;
+
+  // Update alert districts
+  alertDistricts = sorted.map(d => [d.district, d.cases]);
+  alertIndex = 0;
+  updateAlertCard();
+
+  // Update map coloring if function exists in iframe
+  if (svgIframe && svgIframe.contentWindow && svgIframe.contentWindow.updateDistrictColors) {
+    const mappedData = {};
+    districtData.forEach(d => {
+      mappedData['district_' + d.district.replace(/ /g,'_').toLowerCase()] = d.cases;
+    });
+    svgIframe.contentWindow.updateDistrictColors(mappedData);
+  }
+}
+
+/* ==============================
+   INITIAL LOAD
+   ============================== */
+svgIframe.addEventListener('load', async () => {
+  await updateRightCards('2026');
+  setInterval(updateAlertCard, 3000); // alert cycles every 3 sec
+});
+</script>
+
+<script>
+  // format numbers
+  function formatCases(val){
+    if (val >= 1000000) return Math.round(val/1000000)+'M+';
+    if (val >= 1000) return Math.round(val/1000)+'K+';
+    return val;
+  }
+
+  // get color based on value
+  function getColor(val){
+    if (val === 0) return "#d9d9d9";
+    if (val <= 20000) return "#75e469";
+    if (val <= 50000) return "#33b95b";
+    if (val <= 100000) return "#008937";
+    if (val <= 200000) return "#fdae61";
+    if (val <= 500000) return "#e6550d";
+    if (val <= 1500000) return "#ff2a43";
+    return "#bd0026";
+  }
+
+  // normalize map/DB names
+  function normalizeName(s){
+    return s.toLowerCase().replace(/\&/g,'and').replace(/[^a-z0-9]/g,'');
+  }
+
+  // abbreviations for labels
+  const abbrMap = { 
+    maharashtra:"MH", 
+    arunachalpradesh:"AR", 
+    andamanandnicobarislands:"AN",
+    lakshadweep:"LD",
+    andhrapradesh: "AP" 
+  };
+
+  // alias mapping DB → map
+  const alias = { 
+    'arunachalpradesh':'arunanchalpradesh',
+    'andamanandnicobarislands':'andamanandnicobarislands',
+    'delhi':'nctofdelhi',
+    'lakshadweep':'lakshadweep'
+  };
+
+  // build map
+  const indiaGeo = Highcharts.maps['countries/in/custom/in-all-disputed'];
+
+  // enlarge tiny regions
+  indiaGeo.features.forEach(f=>{
+    if(f.properties['hc-key']==='in-an') f['transform']={ scale:4, translateX:70, translateY:-20 };
+    if(f.properties['hc-key']==='in-ar') f['transform']={ scale:1.5, translateX:-30, translateY:0 };
+    if(f.properties['hc-key']==='in-ld') f['transform']={ scale:6, translateX:-50, translateY:0 };
+  });
+
+  // map names → keys
+  const nameToKey={}, keyToName={};
+  indiaGeo.features.forEach(f=>{
+    const n = normalizeName(f.properties.name);
+    const k = f.properties['hc-key'];
+    nameToKey[n] = k;
+    keyToName[k] = f.properties.name;
+  });
+
+  function findKey(dbName){
+    const n = normalizeName(dbName);
+    if(nameToKey[n]) return nameToKey[n];
+    if(alias[n] && nameToKey[alias[n]]) return nameToKey[alias[n]];
+    return null;
+  }
+
+  // fetch DB and render map
+  fetch('/api/state-cases?year=2025')
+  .then(r=>r.json())
+  .then(results=>{
+    const points=[], usedKeys=new Set();
+
+    results.forEach(row=>{
+      const key = findKey(row.state_ut);
+      if(!key) return;
+      const val = (+row.cases||0)*1000;
+      const abbr = abbrMap[normalizeName(row.state_ut)] || row.state_ut.slice(0,2).toUpperCase();
+      points.push({ 
+        'hc-key': key, 
+        value: val, 
+        name: row.state_ut, 
+        abbr, 
+        formattedValue: formatCases(val), 
+        color: getColor(val) 
+      });
+      usedKeys.add(key);
+    });
+
+    // add missing states with 0
+    indiaGeo.features.forEach(f=>{
+      if(!usedKeys.has(f.properties['hc-key'])){
+        points.push({
+          'hc-key': f.properties['hc-key'],
+          value: 0,
+          name: f.properties.name,
+          abbr: abbrMap[normalizeName(f.properties.name)] || f.properties.name.slice(0,2).toUpperCase(),
+          formattedValue:'0',
+          color:'#d9d9d9'
+        });
+      }
+    });
+
+    // render map
+    const chart = Highcharts.mapChart('container',{
+      chart:{ map: indiaGeo },
+      title:{ text: '' },
+      credits:{ enabled:false },
+      mapNavigation:{ enabled:false },
+      exporting:{ enabled:false },
+      legend:{ enabled:false },
+      colorAxis:{ visible:false },
+      tooltip:{
+        useHTML:true,
+        formatter:function(){ 
+          return `<b>${this.point.name}</b><br/>Cases: ${this.point.formattedValue}`; 
+        }
+      },
+      series:[{
+    data: points,
+    joinBy: 'hc-key',
+    borderColor:'#fff',
+    nullColor:'#f0f0f0',
+    states:{ hover:{ borderColor:'#000', borderWidth:2, brightness:-0.1 } },
+    dataLabels:{
+      enabled: true,
+      formatter: function() { return this.point.abbr; },
+      style:{ fontWeight:'bold', textOutline:'1px white', fontSize:'10px' },
+      crop: false,
+      defer: false,
+      allowOverlap: true // allow labels to appear outside small islands
+    }
+}]
+
+    });
+
+chart.series[0].points.forEach(p => {
+    if (!p.dataLabel) return;
+
+    if (p['hc-key'] === 'in-an') { 
+        // Andaman & Nicobar: place to bottom-right of main map
+        p.dataLabel.attr({ x: 900, y: 400 }); 
+    }
+    if (p['hc-key'] === 'in-ld') { 
+        // Lakshadweep: place bottom-left
+        p.dataLabel.attr({ x: 100, y: 400 }); 
+    }
+});
+
+    // TODO: here you can also render bar chart into #barchart
+  });
+
+  // Default bar chart load
+  document.addEventListener("DOMContentLoaded", () => {
+    const defaultYear = "2025"; // set your default year
+    const defaultState = "all"; // or stateSelect.value if dropdown present
+
+    if (typeof drawStateBarChart === "function") {
+      drawStateBarChart(parseInt(defaultYear), defaultState);
+    }
+  });
+</script>
+</body>
+</html>

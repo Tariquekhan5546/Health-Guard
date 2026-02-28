@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Developed by [Tarique Khan]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="developer" content="Tarique Khan">
+    <meta name="color-scheme" content="light">
+
+    <title>HealthGuard — Stay Safe, Stay Informed</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bot.css">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="images/icon2.png" type="image/jpeg">
+    <link rel="icon" href="images/icon2.png" type="image/jpeg">
+    <script src="js/botscript.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/10.0.0/marked.min.js"></script>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Rubik:wght@400;500;700&display=swap"
+    rel="stylesheet">
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="js/graph.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+<!-- Navbar -->
+<header class="main-header">
+  <div class="container header-inner">
+
+    <!-- LEFT -->
+    <div class="header-left">
+      <button class="hamburger" id="hamburger">☰</button>
+      <img src="images/icon.jpg" class="logo"
+           onclick="window.location.href='index.html'" />
+    </div>
+
+    <!-- DESKTOP NAV -->
+    <nav class="desktop-nav">
+      <ul class="nav">
+        <li><a href="index.html" class="active-link">Home</a></li>
+        <li><a href="diseasedashboard.html">Dashboard</a></li>
+        <li><a href="hospitallocator.html">Hospitals</a></li>
+        <li><a href="donationform.html">Donate Us</a></li>
+        <li><a href="credits.html">Credits</a></li>
+      </ul>
+
+      <div class="nav-actions">
+  <a href="login.html" class="btn btn-outline-light">Sign In</a>
+  <a href="subscribe.html" class="btn btn-success">Subscribe</a>
+</div>
+
+    </nav>
+  </div>
+</header>
+
+<!-- AWS-STYLE DRAWER -->
+<div class="nav-overlay" id="navOverlay"></div>
+
+<aside class="mobile-drawer" id="mobileDrawer">
+  <div class="drawer-header">
+    <span>Main Menu</span>
+    <button id="closeDrawer">✕</button>
+  </div>
+
+  <ul class="drawer-nav">
+    <li><a href="index.html" onclick="closeDrawer()">Home</a></li>
+    <li><a href="diseasedashboard.html" onclick="closeDrawer()">Dashboard</a></li>
+    <li><a href="hospitallocator.html" onclick="closeDrawer()">Hospitals</a></li>
+    <li><a href="donationform.html" onclick="closeDrawer()">Donate Us</a></li>
+    <li><a href="credits.html" onclick="closeDrawer()">Credits</a></li>
+  </ul>
+
+  <div class="drawer-actions">
+    <a href="login.html" class="btn btn-outline-light" onclick="closeDrawer()">Sign In</a>
+    <a href="subscribe.html" class="btn btn-success" onclick="closeDrawer()">Subscribe</a>
+  </div>
+</aside>
+
+
+<script>
+  const hamburger = document.getElementById("hamburger");
+  const drawer = document.getElementById("mobileDrawer");
+  const overlay = document.getElementById("navOverlay");
+  const closeBtn = document.getElementById("closeDrawer");
+
+  hamburger.onclick = () => {
+    drawer.classList.add("active");
+    overlay.classList.add("active");
+  };
+
+  closeBtn.onclick = overlay.onclick = () => {
+    drawer.classList.remove("active");
+    overlay.classList.remove("active");
+  };
+</script>
+
+
+<!-- SVG icon definition -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="bootstrap" viewBox="0 0 118 94">
+    <path fill-rule="evenodd" clip-rule="evenodd" 
+          d="M14.9 0h88.2C111.4 0 118 6.5 118 14.5v65c0 8-6.6 14.5-14.9 14.5H14.9C6.6 94 0 87.5 0 79.5v-65C0 6.5 6.6 0 14.9 0zm41.2 24h21.7c8.8 0 14.4 4.5 14.4 11.7 0 5.3-3.6 9.8-8.8 10.7v.3c6.8.7 11.4 5.2 11.4 12 0 8.3-6.5 13.4-16.6 13.4H56.1V24zm8.7 9.4v10.8h10.8c4.3 0 6.8-2 6.8-5.5s-2.5-5.3-6.8-5.3H64.8zm0 19.9v12.3H77c4.8 0 7.6-2.2 7.6-6.2 0-4-2.8-6.1-7.6-6.1H64.8z"/>
+  </symbol>
+</svg>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <div class="banner-wrapper"></div>  
+    <div id="banner" class="flex" >
+        <!-- HERO -->
+    <section class="hero">
+      <div class="label" style="color:black">Your trusted source for realtime health intelligence and community wellbeing</div>
+      <h1 style="color: #0f172a;">Stay Safe, Stay Informed</h1>
+      <p style="color: #0f172a;">Track local spread, check symptoms with AI, and view live risk levels for your area.</p>
+<div class="actions">
+  <a class="btn check" href="medicalquiz.html">Check Symptoms</a>
+
+  <a type="button" class="btn dashboard" href='diseasedashboard.html'>View Live Dashboard</a>
+</div>
+
+    </section>
+    </div>
+  </div>
+        <!-- KEY FEATURES -->
+    <section class="section2" id="section2">
+      <h3>Key Features</h3>
+      <div class="features">
+        
+        <a href="diseasedashboard.html#national" class="feature-link">
+  <div class="feature">
+    <div class="icon">
+      <i class="fa-solid fa-chart-simple"></i>
+    </div>
+    <div>
+      <div class="title">Find Latest Stats</div>
+      <div class="sub">National & regional</div>
+    </div>
+  </div>
+</a>
+
+<a href="hospitallocator.html" class="feature-link">
+  <div class="feature">
+    <div class="icon">
+      <i class="fa-regular fa-hospital"></i>
+    </div>
+    <div>
+      <div class="title">Find Nearby Hospitals</div>
+      <div class="sub">Emergency access</div>
+    </div>
+  </div>
+</a>
+
+<a href="medicalquiz.html" class="feature-link">
+  <div class="feature">
+    <div class="icon">
+      <i class="fa-solid fa-stethoscope"></i>
+    </div>
+    <div>
+      <div class="title">AI Symptom Checker</div>
+      <div class="sub">Instant guidance</div>
+    </div>
+  </div>
+</a>
+
+<a href="diseasedashboard.html#state" class="feature-link">
+  <div class="feature">
+    <div class="icon">
+      <i class="fa-solid fa-arrow-trend-up"></i>
+    </div>
+    <div>
+      <div class="title">Realtime Trends</div>
+      <div class="sub">Graphs & alerts</div>
+    </div>
+  </div>
+</a>
+
+        
+      </div>
+    </section>
+
+    <section class="py-100" id="cardsection">
+         <!-- INTERACTIVE DATA -->
+    <section class="section" id="section">
+      <div class="grid-3">
+        <div class="card">
+<div class="map-wrapper">
+  <iframe 
+    src="indiamap.html" 
+    frameborder="0"
+    scrolling="no"
+    class="map-frame">
+  </iframe>
+</div>
+
+            
+        </div>
+<div class="card" style="display:flex; flex-direction:column; height:450px;">
+  <div style="text-align:center; font-size:14px; font-weight:bold; color:#2c3e50; margin-bottom:5px;">
+    India’s Health Trends: Viral and Non-Viral Disease Cases <br>(2020–2025)
+  </div>
+  <div id="curve_chart" style="flex:1;"></div> <!-- fills remaining height -->
+</div>
+
+
+       
+      </div>
+
+      <div class="ticker">
+        <div id="marquee-container" style="overflow:hidden; white-space:nowrap; width:100%; padding:5px; font-weight:bold; position:relative; height:40px;">
+  <span id="marquee-text" style="position:absolute; white-space:nowrap;"></span>
+</div>
+      </div>
+    </section>
+    </section>
+     <!-- IMPACT + ALERTS -->
+<section class="section3" id="section1">
+  <div class="grid-2">
+    <div class="cards">
+
+      <!-- Card 1 -->
+      <div class="card1">
+        <div class="metric">
+          <div class="icon">
+            <i class="fa-solid fa-user-doctor"></i>
+          </div>
+          <div>
+            <div class="title">AI Health Assistant</div>
+            <div class="sub">Voice/Text checks for instant advice</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card1">
+        <div class="metric">
+          <div class="icon">
+            <i class="fa-solid fa-square-poll-horizontal"></i>
+          </div>
+          <div>
+            <div class="title">Health Reports Dashboard</div>
+            <div class="sub">View analysis & trends from your data</div>
+          </div>
+        </div>
+      </div>  
+
+      <!-- Card 3 -->
+      <div class="card1">
+        <div class="metric">
+          <div class="icon">
+            <i class="fa-solid fa-timeline"></i>
+          </div>
+          <div>
+            <div class="title">Outbreak Timeline</div>
+            <div class="sub">Track viral disease data (2020–2025)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card1">
+        <div class="metric">
+          <div class="icon">
+            <i class="fa-solid fa-stethoscope"></i>
+          </div>
+          <div>
+            <div class="title">MCQ Symptom Finder</div>
+            <div class="sub">Answer simple questions to narrow down issues</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="card1">
+        <div class="metric">
+          <div class="icon">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+          <div>
+            <div class="title">Email Alerts</div>
+            <div class="sub">Stay notified with health updates</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 (extra idea) -->
+      <div class="card1">
+        <div class="metric">
+          <div class="icon">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </div>
+          <div>
+            <div class="title">200+</div>
+            <div class="sub">Hospitals Linked</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="width:100%; text-align: center; padding: 60px 40px;  border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+  
+  <!-- Medical Icon -->
+  <div style="font-size: 48px; color: #2a9d8f; margin-bottom: 20px;">
+    🩺
+  </div>
+  
+  <h1 style="font-size: 32px; margin-bottom: 20px; color: #333; font-weight: 700;">
+    Need Medical Guidance?
+  </h1>
+  
+  <p style="font-size: 20px; line-height: 1.7; margin-bottom: 40px; color: #444; max-width: 800px; margin-left: auto; margin-right: auto;">
+    Whether you’re curious about symptoms, looking for wellness advice, or want quick tips on nutrition and lifestyle —<br>
+    <strong>MedicalCare AI</strong> is here to give you reliable, easy-to-understand guidance.<br><br>
+    Get trustworthy insights, anytime you need them.
+  </p>
+  
+  <a href="AI_medicalchat.html" 
+     style="display: inline-block; padding: 16px 36px; font-size: 18px; background-color: #2a9d8f; color: white; font-weight: 600; border-radius: 30px; text-decoration: none; transition: 0.3s;">
+    💬 Chat with MedicalCare AI
+  </a>
+</section>
+<section style="width:100%; text-align: center; padding: 60px 40px; background: linear-gradient(135deg, #f2f2f2, #ffffff); border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+  
+  <!-- Subscribe Icon -->
+  <div style="font-size: 48px; color: #e76f51; margin-bottom: 20px;">
+    📍
+  </div>
+  
+  <h1 style="font-size: 32px; margin-bottom: 20px; color: #333; font-weight: 700;">
+    Stay Updated in Real-Time
+  </h1>
+  
+  <p style="font-size: 20px; line-height: 1.7; margin-bottom: 40px; color: #444; max-width: 800px; margin-left: auto; margin-right: auto;">
+    Subscribe now to get real-time updates for the location of your choice.<br>
+    Track local health trends, alerts, and community updates instantly.<br><br>
+    Stay informed and ahead with <strong>MedicalCare AI</strong>.
+  </p>
+  
+  <a href="subscribe.html" 
+     style="display: inline-block; padding: 16px 36px; font-size: 18px; background-color: #16a9a6; color: white; font-weight: 600; border-radius: 30px; text-decoration: none; transition: 0.3s;">
+    📰 Subscribe Now
+  </a>
+</section>
+
+<section style="width:100%; text-align: center; padding: 60px 40px; 
+background: linear-gradient(135deg, #ffffff, #fafafa); 
+border-radius: 20px; 
+box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+margin-top: 40px;">
+
+  <!-- Icon -->
+  <div style="font-size: 48px; color: #0e7574; margin-bottom: 20px;">
+    <i class="bi bi-bell"></i>
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
+</svg>
+  </div>
+
+  <h2 style="font-size: 30px; margin-bottom: 20px; color: #333; font-weight: 700;">
+    Community-Powered Viral Disease Monitoring
+  </h2>
+
+  <p style="font-size: 18px; line-height: 1.7; margin-bottom: 35px; 
+  color: #444; max-width: 800px; margin-left: auto; margin-right: auto;">
+    Our platform allows individuals to report viral illness cases in their local area, 
+    helping create a real-time disease monitoring system. Verified reports trigger 
+    location-based alerts to keep communities informed and prepared.
+  </p>
+
+  <!-- Buttons -->
+  <div style="margin-bottom: 35px;">
+    <a href="individual_report.html" 
+       style="display: inline-block; padding: 14px 30px; font-size: 17px; 
+       background-color: #16a9a6; color: white; font-weight: 600; 
+       border-radius: 30px; text-decoration: none; margin: 10px; transition: 0.3s;">
+       📝 Report an Illness
+    </a>
+
+    <a href="subscribe.html" 
+       style="display: inline-block; padding: 14px 30px; font-size: 17px; 
+       background-color: #e76f51; color: white; font-weight: 600; 
+       border-radius: 30px; text-decoration: none; margin: 10px; transition: 0.3s;">
+       📍 Subscribe for Updates
+    </a>
+  </div>
+
+  <!-- How It Works -->
+  <div style="font-size: 15px; color: #555; line-height: 1.8;">
+  <strong>How It Works:</strong><br><br>
+  • Individuals submit viral illness reports from their area.<br>
+  • Users subscribe to receive location-based health updates.<br>
+  • Every day at 1:00 PM, subscribers receive a summarized area report.<br>
+  • This system provides real-time awareness and helps communities stay prepared.
+</div>
+
+
+</section>
+
+
+
+      <footer class="footer" style="background-image: url('images/footer-bg.png')">
+    <div class="container">
+    <br><br><br><br><br>
+      <div class="section footer-top">
+
+<div class="footer-brand" data-reveal="bottom" 
+     style="display:flex; align-items:flex-start; gap:40px; flex-wrap:wrap;">
+
+  <!-- Logo -->
+  <a href="#" class="logo" style="display:flex; align-items:center;">
+    <img src="images/icon1.png" width="90" height="70" loading="lazy" alt="HealthGuard" style="margin-top:20px;">
+  </a>
+
+  <!-- Contact List -->
+  <ul class="contact-list has-after" style="display:flex; gap:40px; list-style:none; margin:0; padding:0;">
+    <li class="contact-item" style="display:flex; gap:10px; align-items:flex-start;">
+      <div class="item-icon">
+        <ion-icon name="mail-open-outline"></ion-icon>
+      </div>
+      <div>
+        <p>Email : <a href="mailto:contact@website.com" class="contact-link">healthguard2026@gmail.com</a></p>
+        <p>Inquiries : <a href="mailto:Info@mail.com" class="contact-link">Info@mail.com</a></p>
+      </div>
+    </li>
+
+    <li class="contact-item" style="display:flex; gap:40px; align-items:flex-start;">
+      <div class="item-icon">
+        <ion-icon name="call-outline"></ion-icon>
+      </div>
+      <div>
+        <p>Office Telephone : <a href="tel:0029129102320" class="contact-link">0229102320</a></p>
+        <p>Mobile : <a href="tel:000232439493" class="contact-link">0232439493</a></p>
+      </div>
+    </li>
+  </ul>
+</div>
+        <div class="footer-list" data-reveal="bottom">
+
+  <p class="headline-sm footer-list-title">About Us</p>
+
+ <p class="text">
+  We provide reliable healthcare information and support, 
+  connecting patients and professionals with trusted resources.
+</p>
+  
+
+  <address class="address">
+    <ion-icon name="map-outline"></ion-icon>
+    <span class="text">
+      MGMCET, Kamothe <br>
+      Navi Mumbai, Maharashtra
+    </span>
+  </address>
+
+</div>
+
+
+        <ul class="footer-list" data-reveal="bottom">
+
+          <li>
+            <p class="headline-sm footer-list-title">Services</p>
+          </li>
+
+          <li>
+            <a href="#" class="text footer-link">Conditions</a>
+          </li>
+
+          <li>
+            <a href="#" class="text footer-link">Listing</a>
+          </li>
+
+          <li>
+            <a href="#" class="text footer-link">How It Works</a>
+          </li>
+
+          <li>
+            <a href="#" class="text footer-link">What We Offer</a>
+          </li>
+
+          <li>
+            <a href="#" class="text footer-link">Latest News</a>
+          </li>
+
+          <li>
+            <a href="#" class="text footer-link">Contact Us</a>
+          </li>
+
+        </ul>
+
+        <ul class="footer-list" data-reveal="bottom">
+
+          <li>
+            <p class="headline-sm footer-list-title">Useful Links</p>
+          </li>
+
+          <li>
+            <a href="#" class="text footer-link">Conditions</a>
+          </li>
+
+          <li>
+            <a href="#" class="text footer-link">Terms of Use</a>
+          </li>
+
+          <li>
+            <a href="#" class="text footer-link">Our Services</a>
+          </li>
+
+        </ul>
+
+        <div class="footer-list" data-reveal="bottom">
+
+          <p class="headline-sm footer-list-title">Subscribe</p>
+
+          <form action="" class="footer-form">
+            <input type="email" name="email" placeholder="Email" class="input-field title-lg">
+
+            <button type="submit" class="btn1 has-before title-md">Subscribe</button>
+          </form>
+
+          <p class="text">
+            Get the latest updates via email. Any time you may unsubscribe
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+
+        <p class="text copyright">
+          &copy; HealthGuard 2025 | All Rights Reserved
+        </p>
+
+        <ul class="social-list">
+
+          <li>
+            <a href="#" class="social-link">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="social-link">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="social-link">
+              <ion-icon name="logo-google"></ion-icon>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="social-link">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="social-link">
+              <ion-icon name="logo-pinterest"></ion-icon>
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </div>
+  </footer>
+    <div class="chat-icon" id="chaticon">
+
+    </div>
+    
+    <div class="chat-window" id="chatwindow">
+      <div class="chat-header">
+        <span class="botname">HEALTHGUARD AI</span>
+        <div>
+          <button id="minimizechat"></button>
+          <button id="resetchat"></button>
+          <button id="closechat">✖</button>
+        </div>
+      </div>
+      <div class="chat-body" id="chatbody">
+        <div class="message bot-message">
+        How can I assist you today? Let’s get started!
+        </div>
+      </div>
+      <div class="chat-footer">
+        <input type="text" id="messageinput" placeholder="type your message here...">
+        <span id="voicesearch" class="voice-icon"></span>
+        <span id="sendmessage" class="send-icon"></span>
+      </div>
+    </div>
+       
+     <script src="js/script1.js"></script>
+
+  <!-- 
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

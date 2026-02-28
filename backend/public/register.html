@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>User Registration - HealthGuard</title>
+<link rel="icon" href="images/icon2.png" type="image/jpeg">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+    * {
+    box-sizing: border-box;
+}
+    body {
+    background: whitesmoke;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding-top: 120px;   /* space for fixed navbar */
+    padding-bottom: 50px;
+}
+.register-card {
+    margin: 0 auto;
+}
+/* Navbar */
+    nav.navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: black;
+        color: #fff;
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
+    }
+    nav.navbar .brand {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+    nav.navbar .brand img {
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+nav.navbar .brand h4 { color:#e9e9e9; margin:0; line-height:1;font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif }
+
+nav.navbar .cta button:hover { background-color:#f7f7f8; }
+.register-card { background:#fff; padding:50px 30px; border-radius:12px; width:100%; max-width:500px; color:#000; box-shadow:0 0 25px rgba(0,0,0,0.2); margin-top:120px; }
+.register-card h2 { margin-bottom:20px; text-align:center; color:#57b8b8; }
+.register-card p { text-align:center; color:#555; margin-bottom:10px; }
+.input-wrapper { position:relative; margin-bottom:20px; }
+.input-wrapper input { width:100%; padding:14px; border-radius:6px; border:1px solid #ccc; outline:none; background:#f9f9f9; color:#000;}
+.input-wrapper label { position:absolute; left:14px; top:14px; pointer-events:none; color:#888; transition:0.2s ease all; }
+.input-wrapper input:focus + label,
+.input-wrapper.active label {
+    top: -8px;
+    left: 10px;
+    font-size: 12px;
+    color: #6366f1;
+    background: #fff;
+    padding: 0 4px;
+}
+.register-card button.register-btn { width:100%; padding:14px; background-color:#57b8b8; border:none; border-radius:6px; font-weight:bold; cursor:pointer; color:#fff; transition:0.3s; }
+.register-card button.register-btn:hover { background-color:#2e8b8b; }
+.register-card .login-link { text-align:center; margin-top:20px; }
+.register-card .login-link a { color:#1f9191; text-decoration:none; }
+.custom-dropdown { position:relative; }
+.custom-dropdown input { cursor:pointer; }
+.custom-dropdown .dropdown-options { position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #ccc; border-radius:6px; box-shadow:0 3px 8px rgba(0,0,0,0.1); display:none; z-index:10; max-height:150px; overflow-y:auto; }
+.custom-dropdown .dropdown-options .option { padding:10px; cursor:pointer; transition:0.2s; }
+.custom-dropdown .dropdown-options .option:hover { background-color:#f0f0ff; }
+.input-wrapper .icon { position:absolute; right:14px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:18px; color:#888; }
+.custom-dropdown input,
+#dob {
+    padding-right: 40px;
+    box-sizing: border-box;
+}
+/* ================= MOBILE RESPONSIVE ================= */
+@media (max-width: 768px) {
+
+    body {
+        display: block;
+        padding: 0 15px;
+        padding-top: 120px;
+    }
+
+    nav.navbar {
+        padding: 10px 15px;
+    }
+
+    nav.navbar .brand h4 {
+        font-size: 16px;
+    }
+
+    nav.navbar .brand img {
+        width: 40px;
+        height: 36px;
+    }
+
+    .register-card {
+        margin-top: 100px;
+        padding: 30px 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .register-card h2 {
+        font-size: 22px;
+    }
+
+    .input-wrapper input {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .register-card button.register-btn {
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    .login-link p {
+        font-size: 14px;
+    }
+
+}
+/* Fix flatpickr overflow on mobile */
+.flatpickr-input,
+.flatpickr-input.form-control,
+.flatpickr-alt-input {
+    width: 100% !important;
+    box-sizing: border-box;
+}
+@media (max-width: 768px) {
+    .input-wrapper {
+        width: 96% !important;
+    }
+}
+/* Prevent overflow for all inputs */
+.input-wrapper,
+.input-wrapper input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="brand" onclick="window.location.href='index.html'">
+        <img src="images/icon1.png" width="50" height="46" alt="HealthGuard">
+        <h4>HealthGuard</h4>
+    </div>
+    <div class="cta">
+        <button type="button" class="btn btn-outline-light" onclick="window.location.href='login.html'">Sign In</button>
+    </div>
+</nav>
+
+<div class="register-card">
+    <h2>Create Account</h2>
+    <p>Fill in your details to register</p>
+    <form id="registerForm" novalidate>
+        <div class="input-wrapper"><input type="text" id="fullName" placeholder=" " required autocomplete="name"><label for="fullName">Full Name</label></div>
+        <div class="input-wrapper"><input type="email" id="registerEmail" placeholder=" " required autocomplete="email"><label for="registerEmail">Email Address</label></div>
+        <div class="input-wrapper"><input type="tel" id="contactNumber" placeholder=" " required pattern="[0-9]{10}" autocomplete="tel"><label for="contactNumber">Contact Number</label></div>
+
+        <div class="input-wrapper custom-dropdown">
+            <input type="text" id="gender" placeholder=" " readonly required>
+            <label for="gender">Gender</label>
+            <i class="bi bi-chevron-down icon"></i>
+            <div class="dropdown-options">
+                <div class="option">Male</div>
+                <div class="option">Female</div>
+                <div class="option">Other</div>
+            </div>
+        </div>
+
+        <div class="input-wrapper dob-wrapper">
+    <input type="text" id="dob" placeholder=" " required>
+    <label for="dob">Date of Birth</label>
+    <i class="bi bi-calendar-event icon"></i>
+</div>
+
+        <div class="input-wrapper custom-dropdown">
+            <input type="text" id="state" placeholder=" " readonly required>
+            <label for="state">State</label>
+            <i class="bi bi-chevron-down icon"></i>
+            <div class="dropdown-options">
+                <div class="option">Maharashtra</div>
+                <div class="option">Karnataka</div>
+                <div class="option">Delhi</div>
+                <div class="option">Tamil Nadu</div>
+                <div class="option">Gujarat</div>
+                
+                <div class="option">Other</div>
+            </div>
+        </div>
+
+        <div class="input-wrapper">
+            <input type="password" id="registerPassword" placeholder=" " required autocomplete="new-password">
+            <label for="registerPassword">Password</label>
+        </div>
+
+        <div class="input-wrapper">
+            <input type="password" id="confirmPassword" placeholder=" " required autocomplete="new-password">
+            <label for="confirmPassword">Confirm Password</label>
+        </div>
+
+        <button type="submit" class="register-btn">Register</button>
+    </form>
+
+    <div class="login-link">
+        <p>Already have an account? <a href="login.html">Sign In</a></p>
+    </div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "your-project-id.firebaseapp.com",
+    projectId: "your-project-id",
+    storageBucket: "your-project-id.appspot.com",
+    messagingSenderId: "your-messaging-sender-id",
+    appId: "your-app-id"
+  };
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+(function() { 
+    history.pushState(null, null, location.href); 
+    window.onpopstate = function(){ history.go(1); }; 
+})();
+
+window.addEventListener('pageshow', function(event){ 
+    if(event.persisted || 
+       (window.performance && window.performance.getEntriesByType("navigation")[0].type === "back_forward")
+    ){ 
+        document.getElementById("registerForm").reset(); 
+    } 
+});
+
+document.querySelectorAll('.custom-dropdown').forEach(dropdown=>{
+    const input = dropdown.querySelector('input');
+    const optionsContainer = dropdown.querySelector('.dropdown-options');
+    const options = optionsContainer.querySelectorAll('.option');
+
+    input.addEventListener('click', ()=>{
+        optionsContainer.style.display =
+            optionsContainer.style.display === 'block' ? 'none' : 'block';
+    });
+
+    options.forEach(option=>{
+        option.addEventListener('click', ()=>{
+            input.value = option.innerText;
+            optionsContainer.style.display = 'none';
+        });
+    });
+
+    document.addEventListener('click',(e)=>{
+        if(!dropdown.contains(e.target)) optionsContainer.style.display='none';
+    });
+});
+
+flatpickr("#dob", {
+    altFormat: "d M Y",
+    dateFormat: "Y-m-d",
+    maxDate: "today",
+    allowInput: true,
+    disableMobile: false,
+    monthSelectorType: "dropdown",
+    yearSelectorType: "dropdown",
+    minDate: "1900-01-01",
+    maxDate: "2025-12-31",
+
+    static: window.innerWidth <= 768
+});
+
+/* 🔹 REGISTER WITH FIREBASE */
+document.getElementById("registerForm").addEventListener("submit", async function(event){
+    event.preventDefault();
+
+    const password = document.getElementById("registerPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if(password !== confirmPassword){
+        alert("Passwords do not match!");
+        return;
+    }
+
+    const contact = document.getElementById("contactNumber").value;
+    if(!/^\d{10}$/.test(contact)){
+        alert("Contact number must be 10 digits!");
+        return;
+    }
+
+    const userData = {
+        name: document.getElementById("fullName").value,
+        email: document.getElementById("registerEmail").value,
+        contact: contact,
+        gender: document.getElementById("gender").value,
+        dob: document.getElementById("dob").value,
+        state: document.getElementById("state").value
+    };
+
+    try {
+        /* 1️⃣ Create user in Firebase */
+        const userCredential = await firebase.auth()
+            .createUserWithEmailAndPassword(userData.email, password);
+
+        /* 2️⃣ Get Firebase UID */
+        const firebaseUID = userCredential.user.uid;
+
+        /* 3️⃣ Send ONLY profile + UID to backend */
+        const response = await fetch('/api/register', { 
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                ...userData,
+                firebase_uid: firebaseUID
+            })
+        });
+
+        const result = await response.json();
+
+        if(result.success){
+            alert("Registration successful! You can now log in.");
+            window.location.href = "login.html";
+        } else {
+            alert(result.message || "Registration failed!");
+        }
+
+    } catch(err){
+        console.error(err);
+        alert(err.message || "Registration failed!");
+    }
+});
+// Floating label fix (works with flatpickr too)
+document.querySelectorAll('.input-wrapper input').forEach(input => {
+
+    function checkValue() {
+        if (input.value.trim() !== "") {
+            input.parentElement.classList.add("active");
+        } else {
+            input.parentElement.classList.remove("active");
+        }
+    }
+
+    input.addEventListener("focus", checkValue);
+    input.addEventListener("blur", checkValue);
+    input.addEventListener("input", checkValue);
+
+    // Run once on load
+    checkValue();
+});
+</script>
+
+
+</body>
+</html>

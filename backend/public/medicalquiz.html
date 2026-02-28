@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HealthGuard - Check Symptoms</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+  :root{
+    --bg:#2fb1ad;
+    --card:#e1e1e1;
+    --card-deep:#d2d2d2;
+    --white:#ffffff;
+    --option-bg:#f6fafd;
+    --option-text:#24303b;
+    --accent-blue:#29a9d3;
+    --accent-red:#ec5a5a;
+    --gray:#7b8b90;
+    --border:#ffffff33;
+    --primary:#2fb1ad;
+    --primary-2:#43c7bc;
+    --accent:#29a9d3;
+    --verdigris:#2fb1ad;
+  }
+
+  html, body{
+    margin:0;
+    padding:0;
+    font-family:'Montserrat',sans-serif;
+    background:white;
+  }
+
+.banner {
+  width: 100%;
+  min-height: 300px;             /* banner height */
+  padding: 60px 40px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;            /* vertical centering */
+  justify-content: flex-start;    /* horizontal align left */
+
+  color: #000;
+
+  /* background layers */
+  background-image: url('../images/backgroundimgforbanner.png'), linear-gradient(rgb(212, 212, 212), whitesmoke);
+  background-repeat: no-repeat, no-repeat;
+  background-position: top right, 0 0;
+  background-size: contain, cover;
+
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.1); /* subtle shadow */
+}
+
+
+.banner-content {
+  max-width: 800px;        /* keeps content from stretching too far */
+  margin: 0;               /* already aligned via padding */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;               /* space between each paragraph */
+}
+
+.banner h2 {
+  margin: 0 0 10px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.banner p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;        /* makes paragraphs easier to read */
+}
+
+  /* Card */
+  .wrap{
+    width:520px;
+    max-width:95vw;
+    margin:120px auto 0;
+  }
+  .card{
+    background:linear-gradient(180deg,var(--card) 0%, var(--card-deep) 100%);
+    border-radius:26px;
+    padding:34px 36px 30px;
+    box-shadow:0 18px 40px rgba(0,0,0,0.12);
+    position:relative;
+    min-height:420px;
+    display:flex;
+    flex-direction:column;
+  }
+  .badge{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    top:-36px;
+    width:84px;
+    height:84px;
+    border-radius:50%;
+    background-color:var(--white);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12);
+  }
+
+
+  .title{text-align:center;margin-top:8px;}
+  .title h1{
+    margin:10px 0 14px;
+    font-weight:800;
+    letter-spacing:1px;
+    color:black;
+    font-size:30px;
+  }
+
+  #quizBox{ margin-top:15px; color:#0e1d23; flex-grow:1; }
+  .options{ display:flex; flex-direction:column; gap:18px; margin-top:20px; }
+  .option{ display:flex; align-items:center; gap:30px; background: var(--option-bg); border-radius:36px; padding:16px 20px; font-weight:700; color:var(--option-text); cursor:pointer; transition:0.2s ease-in-out; }
+  .option:hover{ transform:scale(1.02); box-shadow:0 3px 8px rgba(0,0,0,0.08); }
+  .option .letter{ display:inline-flex; width:36px; height:36px; align-items:center; justify-content:center; font-weight:800; font-size:16px; border-radius:50%; color:var(--white); }
+  .option.a .letter{ background:var(--accent-blue); }
+  .option.b .letter{ background:var(--accent-red); }
+  .option.c .letter,
+  .option.d .letter{ background:var(--gray); }
+  #result{ margin-top:20px; font-size:16px; color:#fff; font-weight:600; text-align:center; }
+
+.mg-footer {
+  background: 
+  url('../images/footer-bg.png'),
+  linear-gradient(180deg,#000);
+  color: #fff;
+  margin-top: 60px;       /* space between card and footer */
+  background-size: contain;
+  background-position: top right;
+  background-repeat: no-repeat;
+  min-height: 300px;      /* taller footer */
+  display: flex;
+  flex-direction: column;
+  padding: 20px 30px;
+}
+
+/* make footer-top grow and push footer-bottom to bottom */
+.mg-footer .mg-footer-top {
+  flex-grow: 1;           /* this will take all extra space */
+  display: flex;          /* keep your top content layout */
+  flex-direction: column; /* adjust if needed */
+  gap: 20px;              /* spacing between items inside top */
+}
+
+.mg-footer .mg-footer-bottom {
+  display: flex;
+  justify-content: space-between; /* text left, icons right */
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 10px;          /* small space from bottom */
+  border-top: 1px solid #ffffff33;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Footer brand section stays same */
+.mg-footer .mg-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  background-color: #222;
+  padding: 32px;
+  border-radius: 10px;
+}
+
+/* Logo stays first */
+.mg-footer .mg-footer-logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+/* Contact groups side by side with vertical separator */
+.mg-footer .mg-contact-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 0 20px;
+  border-left: 2px solid #fff;
+  margin-top: 0;
+}
+
+/* Remove border for first contact group */
+.mg-footer .mg-contact-item:first-of-type {
+  border-left: none;
+  padding-left: 0;
+}
+
+.mg-footer .mg-contact-item p {
+  font-size: 16px;
+  margin: 2px 0;
+}
+
+.mg-footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.mg-footer a:hover {
+  color: var(--verdigris);
+}
+
+
+
+.mg-footer .mg-footer-bottom p {
+  margin: 0;
+  font-size: 16px;
+  color: #fff;
+}
+
+.mg-footer .mg-social-list {
+  display: flex;
+  gap: 8px;
+}
+
+.mg-footer .mg-social-link {
+  font-size: 1rem;
+  padding: 12px;
+  background-color: hsla(0, 0%, 100%, 0.1);
+  border-radius: 50%;
+  transition: 0.25s ease;
+}
+
+.mg-footer .mg-social-link:hover {
+  background-color: var(--verdigris);
+}
+/* ================= MOBILE FOOTER FIX ================= */
+@media (max-width: 768px) {
+
+  .mg-footer {
+    padding: 20px 15px;
+    text-align: center;
+  }
+
+  /* Brand section stacked */
+  .mg-footer-brand {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+    padding: 20px !important;
+  }
+
+  /* Remove vertical dividers */
+  .mg-contact-item {
+    border-left: none !important;
+    padding: 0 !important;
+    align-items: center !important;
+  }
+
+  .mg-contact-item p {
+    font-size: 14px;
+  }
+
+  /* Bottom section stacked */
+  .mg-footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .mg-footer-bottom p {
+    font-size: 14px;
+  }
+
+  /* Social icons centered */
+  .mg-social-list {
+    justify-content: center;
+  }
+
+  .mg-social-link {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+/* HEADER */
+.main-header {
+  background: #000;
+  padding: 10px 0;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.brand img {
+  cursor: pointer;
+}
+
+/* Desktop Nav */
+.desktop-nav {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+}
+
+.desktop-nav li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.desktop-nav li a:hover {
+  color: #2fb1ad;
+}
+
+/* Desktop Buttons */
+.desktop-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Sidebar */
+.mobile-sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 260px;
+  height: 100%;
+  background: #0c0c0c;
+  color: #fff;
+  padding: 20px;
+  transition: 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-sidebar.active {
+  left: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.mobile-sidebar a {
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 0;
+  border-bottom: 1px solid #222;
+}
+
+.mobile-sidebar a:hover {
+  color: #2fb1ad;
+}
+
+.sidebar-buttons {
+  margin-top: auto;
+}
+
+/* Overlay */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  z-index: 900;
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+
+  .desktop-nav,
+  .desktop-actions {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+  }
+}
+@media (max-width: 768px) {
+
+  .wrap {
+    width: 100%;
+    margin: 40px auto 0;
+    padding: 0 12px;
+  }
+
+  .card {
+    border-radius: 20px;
+    padding: 24px 18px 24px;
+    min-height: auto;
+  }
+
+  .badge {
+    width: 70px;
+    height: 70px;
+    top: -30px;
+  }
+
+  .badge i {
+    font-size: 40px !important;
+  }
+
+  .title h1 {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  #quizBox h3,
+  #quizBox p {
+    font-size: 16px;
+  }
+}
+@media (max-width: 768px) {
+
+  .options {
+    gap: 14px;
+  }
+
+  .option {
+    padding: 14px 16px;
+    border-radius: 30px;
+    font-size: 14px;
+  }
+
+  .option .letter {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+  }
+}
+.card {
+  justify-content: flex-start;
+}
+@media (max-width: 768px) {
+  .card {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  }
+}
+@media (max-width: 768px) {
+
+  .banner {
+    padding: 40px 20px;
+    min-height: auto;
+    background-size: 120px, cover;
+    background-position: top right, 0 0;
+  }
+
+  .banner h2 {
+    font-size: 26px;
+    line-height: 1.2;
+  }
+
+  .banner p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* Hide extra paragraphs */
+  .banner p:nth-of-type(3),
+  .banner p:nth-of-type(4) {
+    display: none;
+  }
+;
+}
+@media (max-width: 768px) {
+
+  .banner {
+    padding: 35px 20px;
+    min-height: auto;
+
+    background: linear-gradient(90deg, #abaaaa, #868585);
+    background-image: none;   /* remove image layer fully */
+  }
+
+}
+
+
+
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="main-header">
+  <div class="nav-container">
+
+    <!-- Left: Hamburger (Mobile Only) -->
+    <div class="mobile-menu-btn" onclick="openMenu()">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+
+    <!-- Logo -->
+    <div class="brand">
+      <img src="images/icon.jpg" width="55" height="51"
+           onclick="window.location.href='index.html'">
+    </div>
+
+    <!-- Desktop Nav -->
+    <ul class="desktop-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="diseasedashboard.html">Dashboard</a></li>
+      <li><a href="hospitallocator.html">Hospitals</a></li>
+      <li><a href="donationform.html" class="active-link">Donate Us</a></li>
+      <li><a href="credits.html">Credits</a></li>
+    </ul>
+
+    <!-- Desktop Buttons -->
+    <div class="desktop-actions">
+      <button class="btn btn-outline-light btn-sm"
+              onclick="window.location.href='login.html'">Sign In</button>
+      <button class="btn btn-success btn-sm"
+              onclick="window.location.href='subscribe.html'">Subscribe</button>
+    </div>
+
+  </div>
+</header>
+
+<!-- MOBILE SIDEBAR -->
+<div class="mobile-sidebar" id="mobileSidebar">
+  <div class="sidebar-header">
+    <span>Main Menu</span>
+    <i class="fa-solid fa-xmark" onclick="closeMenu()"></i>
+  </div>
+
+  <a href="index.html">Home</a>
+  <a href="diseasedashboard.html">Dashboard</a>
+  <a href="hospitallocator.html">Hospitals</a>
+  <a href="donationform.html">Donate Now</a>
+  <a href="credits.html">Credits</a>
+
+  <div class="sidebar-buttons">
+    <button class="btn btn-outline-light btn-sm w-100 mb-2"
+            onclick="window.location.href='login.html'">Sign In</button>
+    <button class="btn btn-success btn-sm w-100"
+            onclick="window.location.href='subscribe.html'">Subscribe</button>
+  </div>
+</div>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMenu()"></div>
+
+<!-- SVG icon definition -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="bootstrap" viewBox="0 0 118 94">
+    <path fill-rule="evenodd" clip-rule="evenodd" 
+          d="M14.9 0h88.2C111.4 0 118 6.5 118 14.5v65c0 8-6.6 14.5-14.9 14.5H14.9C6.6 94 0 87.5 0 79.5v-65C0 6.5 6.6 0 14.9 0zm41.2 24h21.7c8.8 0 14.4 4.5 14.4 11.7 0 5.3-3.6 9.8-8.8 10.7v.3c6.8.7 11.4 5.2 11.4 12 0 8.3-6.5 13.4-16.6 13.4H56.1V24zm8.7 9.4v10.8h10.8c4.3 0 6.8-2 6.8-5.5s-2.5-5.3-6.8-5.3H64.8zm0 19.9v12.3H77c4.8 0 7.6-2.2 7.6-6.2 0-4-2.8-6.1-7.6-6.1H64.8z"/>
+  </symbol>
+</svg>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<section class="banner">
+  <div class="banner-content">
+    <h2>Know Your Symptoms in 2 Minutes</h2>
+    <p>Not sure what illness you might have? Take a few moments to answer our guided questions.</p>
+    <p>Our AI will analyze your symptoms quickly and give you insights on what could be happening.</p>
+    <p>Understand potential health issues and get suggestions on what steps to take next.</p>
+    <p>It's fast, easy, and designed to help you make informed decisions about your well-being.</p>
+  </div>
+</section>
+
+
+
+  <!-- Quiz Card -->
+  <div class="wrap">
+    <div class="card">
+      <div class="badge"><i class="fa-solid fa-square-plus" style="color:#74C0FC; font-size:50px;"></i>
+</div>
+      <div class="title"><h1>MEDICAL QUIZ</h1></div>
+      <div id="quizBox"></div>
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mg-footer" >
+    <div class="mg-footer-top">
+
+     <div class="mg-footer-brand">
+  <!-- Logo -->
+  <div class="mg-footer-logo">
+    <img src="images/logo2.png" width="170" height="50" alt="HealthGuard">
+  </div>
+
+  <!-- Contact groups -->
+  <div class="mg-contact-item">
+    <p>Email: <a href="mailto:healthguard2026@gmail.com">healthguard2026@gmail.com</a></p>
+    <p>Inquiries: <a href="mailto:Info@mail.com">Info@mail.com</a></p>
+  </div>
+
+  <div class="mg-contact-item">
+    <p>Office: <a href="tel:0029129102320">0029129102320</a></p>
+    <p>Mobile: <a href="tel:000232439493">000 2324 39493</a></p>
+  </div>
+</div>
+
+
+    </div>
+   <div class="mg-footer-bottom">
+  <p>&copy; HealthGuard 2025 | All Rights Reserved</p>
+  <div class="mg-social-list">
+    <a href="#" class="mg-social-link">
+      <ion-icon name="logo-facebook"></ion-icon>
+    </a>
+    <a href="#" class="mg-social-link">
+      <ion-icon name="logo-twitter"></ion-icon>
+    </a>
+    <a href="#" class="mg-social-link">
+      <ion-icon name="logo-google"></ion-icon>
+    </a>
+    <a href="#" class="mg-social-link">
+      <ion-icon name="logo-linkedin"></ion-icon>
+    </a>
+    <a href="#" class="mg-social-link">
+      <ion-icon name="logo-pinterest"></ion-icon>
+    </a>
+  </div>
+</div>
+
+    </div>
+  </footer>
+
+  <!-- JS -->
+   <script>
+function openMenu() {
+  document.getElementById("mobileSidebar").classList.add("active");
+  document.getElementById("sidebarOverlay").classList.add("active");
+}
+
+function closeMenu() {
+  document.getElementById("mobileSidebar").classList.remove("active");
+  document.getElementById("sidebarOverlay").classList.remove("active");
+}
+</script>
+
+  <script src="js/quizlogic.js"></script>
+  <script src="js/medicalquiz.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
