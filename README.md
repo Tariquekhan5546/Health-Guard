@@ -467,8 +467,10 @@ CREATE TABLE reviews (
 ### Individual Disease Report Form
 ![Individual Report](assets/screenshots/individual-report.png)
 
-Run the Server
+#### Run the Server
+
 cd backend
+
 node server.js
 
 Server will start at:
