@@ -80,6 +80,8 @@ CSS
 
 JavaScript
 
+---
+
 ### Installation Guide
 1. Install Node.js
 
@@ -91,10 +93,21 @@ https://nodejs.org
 
 node -v
 npm -v
+
 2. Clone Repository
-git clone https://github.com/YOUR_USERNAME/health-guard.git
-cd health-guard
+
+git clone https://github.com/Tariquekhan5546/Health-Guard.git
+
+cd Health-Guard
+
+cd backend
+
+npm install
+
+node server.js
+
 3. Install Dependencies
+
 npm install
 
 #### This installs:
@@ -183,6 +196,7 @@ Update login.html and register.html
     appId: "your-app-id"
   };
 </script>
+
 What is this?
 
 with your real Firebase project configuration.
@@ -196,6 +210,7 @@ Generate App Password
 #### Use it as:
 
 EMAIL_PASS=generated_app_password
+
 7. Twilio Setup
 
 Create account at https://twilio.com
@@ -219,12 +234,15 @@ Generate API key
 #### Add:
 
 PERPLEXITY_API_KEY=your_key
+
 9. MySQL Database Setup
 
 #### Open MySQL and run:
 
 CREATE DATABASE healthguard_db;
+
 USE healthguard_db;
+
 Database Schema
 
 Below are all required tables.
@@ -243,7 +261,7 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     firebase_uid VARCHAR(128) UNIQUE
 );
-
+---
 #### subscribers
 
 CREATE TABLE subscribers (
@@ -258,7 +276,7 @@ CREATE TABLE subscribers (
     approved TINYINT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
+---
 #### disease_counts
 
 CREATE TABLE disease_counts (
@@ -275,7 +293,7 @@ CREATE TABLE disease_counts (
     year INT,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
-
+---
 #### individual_reports
 
 CREATE TABLE individual_reports (
@@ -290,7 +308,7 @@ CREATE TABLE individual_reports (
     diagnosis_date DATE,
     doctor_confirmed ENUM('Yes','No')
 );
-
+---
 #### notifications
 
 CREATE TABLE notifications (
@@ -304,7 +322,7 @@ CREATE TABLE notifications (
     FOREIGN KEY (subscriber_id) REFERENCES subscribers(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
-
+---
 #### areas
 
 CREATE TABLE areas (
@@ -313,7 +331,7 @@ CREATE TABLE areas (
     district VARCHAR(100),
     area_name VARCHAR(150)
 );
-
+---
 #### state_cases
 
 CREATE TABLE state_cases (
@@ -322,7 +340,7 @@ CREATE TABLE state_cases (
     state_ut VARCHAR(50),
     cases INT DEFAULT 0
 );
-
+---
 #### state_disease_data
 
 CREATE TABLE state_disease_data (
@@ -338,7 +356,7 @@ CREATE TABLE state_disease_data (
     other INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
+---
 #### district_viral_cases
 
 CREATE TABLE district_viral_cases (
@@ -353,7 +371,7 @@ CREATE TABLE district_viral_cases (
     hepatitis_ae INT DEFAULT 0,
     other_minor_viral INT DEFAULT 0
 );
-
+---
 #### district_year_cases
 
 CREATE TABLE district_year_cases (
@@ -363,7 +381,7 @@ CREATE TABLE district_year_cases (
     district VARCHAR(100),
     cases INT DEFAULT 0
 );
-
+---
 #### area_alert_windows
 
 CREATE TABLE area_alert_windows (
@@ -375,7 +393,7 @@ CREATE TABLE area_alert_windows (
     last_summary_sent_at DATETIME,
     threshold_sent_at DATETIME
 );
-
+---
 #### area_alert_cycles
 
 CREATE TABLE area_alert_cycles (
@@ -386,7 +404,7 @@ CREATE TABLE area_alert_cycles (
     disease VARCHAR(100),
     last_summary_sent_at DATETIME
 );
-
+---
 #### area_daily_counts
 
 CREATE TABLE area_daily_counts (
@@ -400,7 +418,7 @@ CREATE TABLE area_daily_counts (
     threshold_alert_sent TINYINT DEFAULT 0,
     scheduled_alert_sent TINYINT DEFAULT 0
 );
-
+---
 #### area_daily_archive
 
 CREATE TABLE area_daily_archive (
@@ -413,7 +431,7 @@ CREATE TABLE area_daily_archive (
     archived_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
+---
 #### reviews
 
 CREATE TABLE reviews (
@@ -424,7 +442,7 @@ CREATE TABLE reviews (
     feedback TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
+---
 ## Screenshots
 
 ### Home Page
